@@ -11,10 +11,12 @@
         "php": "^7.2",
         "doctrine/dbal": "2.*",
         "fideloper/proxy": "^4.0",
+        "laravel/cashier": "^12.13",
         "laravel/framework": "^6.0",
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^6.2",
-        "pusher/pusher-php-server": "~3.0",
+        "pusher/pusher-php-server": "~4.1",
+        "roerjo/laravel-notifications-sendgrid-driver": "^1",
         "sendgrid/sendgrid": "^7.9"
     },
     "require-dev": {

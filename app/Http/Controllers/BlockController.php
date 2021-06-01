@@ -16,10 +16,10 @@ class BlockController extends Controller
      */
     public function index()
     {
-        dd('a');
-        // $user = Block::where('blocked_user_id', Auth::id())->where('blocking_user_id', Auth::id())->get();
+        // dd('a');
+        $users = Block::where('blocking_user_id', Auth::id())->get();
         
-        // return view('blocks.index',compact('user'));
+        return view('blocks.index',compact('users'));
     }
 
     /**
@@ -61,7 +61,7 @@ class BlockController extends Controller
      */
     public function show(Block $block)
     {
-        //
+         //
     }
 
     /**
@@ -72,7 +72,7 @@ class BlockController extends Controller
      */
     public function edit(Block $block)
     {
-        //
+         //
     }
 
     /**
@@ -93,8 +93,11 @@ class BlockController extends Controller
      * @param  \App\Block  $block
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Block $block)
+    public function destroy(Block $block, Request $request)
     {
-        //
+        $blocked_user = Block::where('blocked_user_id', $request->blocked_user_id)->first();
+        $blocked_user->delete();
+        
+        return redirect()->route('blocks.index');
     }
 }

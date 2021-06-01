@@ -20,15 +20,15 @@
                                 <span id="image"><input type="file" id="image" name="image" accept="image/png, image/jpeg"></span>
                                 <input type="button" value="クリア" onclick="sample('image')">
                             </div>
-                            <label for="image" class="col-form-label">{{ __('前回登録画像') }}</label>
+                            <label for="image" class="col-form-label">{{ __('現在登録画像') }}</label>
                             <img src="{{ Storage::url($profile->image_path) }}" alt="image" style="width: 30%; height: auto;"/>
                         </div>
                         <div class="form-group">
-                            <label for="introduction" class="col-form-label text-md-right">自己紹介</label>
+                            <label for="introduction" class="col-form-label">自己紹介</label>
                             <input type="text" id="introduction" name="introduction" class="form-control" value={{ $profile->introduction }}>
                         </div>
                         <div class="form-group">
-                            <label for="age" class="col-form-label text-md-right">年齢</label>
+                            <label for="age" class="col-form-label">年齢</label>
                             <input type="number" id="age" name="age" class="form-control" value={{ $profile->age }}>
                         </div>
                         <div class="form-group">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Profile;
 use App\Hobby;
 use App\Block;
@@ -32,7 +33,8 @@ class ProfileController extends Controller
                 $gender = 0;
             }
             // dd($gender);
-            $matchList = Profile::where ('sex', $gender)->wherenotin ('id', $blocking)->get();
+            $user_id = User::wherenotnull('deleted_at')->pluck('id');
+            $matchList = Profile::where ('sex', $gender)->wherenotin ('id', $blocking)->wherenotin ('id', $user_id)->get();
             // dd($matchList);
         // } else {
             
@@ -88,7 +90,7 @@ class ProfileController extends Controller
                 ]);
                 $choice = $request->input('hobby');
                 foreach ($choice as $hob) {
-                    $hobby = New hobby();
+                    $hobby = new hobby();
                     $hobby->profile_id = Auth::id();
                     $hobby->hobby = $hob;
                     // $hobby->genre = "";
@@ -178,7 +180,7 @@ class ProfileController extends Controller
                     // dump($hob);
                     // dump($hob == $hobby->hobby);
                     if(!($hob == $hobby->hobby)){
-                        $hobby = New hobby();
+                        $hobby = new hobby();
                         $hobby->profile_id = Auth::id();
                         $hobby->hobby = $hob;
                         // $hobby->genre = "";
@@ -199,6 +201,13 @@ class ProfileController extends Controller
      */
     public function destroy(Profile $profile)
     {
-        //
+       //
+    }
+    public function withdrawal($id)
+    {
+        $today = date('Y-m-d');
+        Auth::logout();
+        User::where('id', $id)->update(['deleted_at' => $today]);
+        return redirect()->route('profiles.index');
     }
 }

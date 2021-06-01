@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\EmailReset;
 use App\Http\Notifications\ChangeEmail; 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -53,5 +54,58 @@ class ChangeEmailController extends Controller
             DB::rollback();
             return redirect('/home')->with('flash_message', 'メール更新に失敗しました。');
         }
+    }
+    /**
+     * メールアドレスの再設定処理
+     *
+     * @param Request $request
+     * @param [type] $token
+     */
+    public function reset(Request $request, $token)
+    {
+        $email_resets = DB::table('email_resets')
+            ->where('token', $token)
+            ->first();
+
+        // トークンが存在している、かつ、有効期限が切れていないかチェック
+        if ($email_resets && !$this->tokenExpired($email_resets->created_at)) {
+
+            // ユーザーのメールアドレスを更新
+            $user = User::where('id', $email_resets->user_id)->first();
+            // $user->email = new 
+            $user->email = $email_resets->new_email;
+            // dump($user->email);
+            // dd($user);
+            $user->save();
+
+            // レコードを削除
+            DB::table('email_resets')
+                ->where('token', $token)
+                ->delete();
+
+            return redirect('/home')->with('flash_message', 'メールアドレスを更新しました！');
+        } else {
+            // レコードが存在していた場合削除
+            if ($email_resets) {
+                DB::table('email_resets')
+                    ->where('token', $token)
+                    ->delete();
+            }
+            return redirect('/home')->with('flash_message', 'メールアドレスの更新に失敗しました。');
+        }
+    }
+
+
+    /**
+     * トークンが有効期限切れかどうかチェック
+     *
+     * @param  string  $createdAt
+     * @return bool
+     */
+    protected function tokenExpired($createdAt)
+    {
+        // トークンの有効期限は60分に設定
+        $expires = 60 * 60;
+        return Carbon::parse($createdAt)->addSeconds($expires)->isPast();
     }
 }

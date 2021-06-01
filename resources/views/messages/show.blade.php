@@ -34,40 +34,56 @@
  
     <form>
         <textarea name="message" style="width:100%"></textarea>
-        <button type="button" id="btn_send">送信</button>
+        <button type="button" id="btn_send" data-id="{{ $profile->id }}" onclick="pusherChat({{ $profile->id }})">送信</button>
     </form>
  
-    <input type="hidden" name="send" value="{{$param['send']}}">
-    <input type="hidden" name="recieve" value="{{$param['recieve']}}">
+    <input type="hidden" name="user_id" value="{{$param['send']}}">
+    <input type="hidden" name="receive_user_id" value="{{$param['recieve']}}">
     <input type="hidden" name="login" value="{{\Illuminate\Support\Facades\Auth::id()}}">
  
 </div>
  
 @endsection
+<!--@section('script')-->
+<!--    <script type="text/javascript">-->
+<!--    function pusherChat(id){-->
+<!--        // Enable pusher logging - don't include this in production-->
+<!--        Pusher.logToConsole = true;-->
+    
+<!--        var pusher = new Pusher("{{ config('const.pusher.app_key') }}", {-->
+<!--                cluster: "{{ config('const.pusher.cluster') }}"-->
+<!--            });-->
+    
+<!--        var channel = pusher.subscribe('my-channel');-->
+<!--            channel.bind('my-event', function(data) {-->
+<!--                alert(JSON.stringify(data));-->
+<!--            });-->
+<!--    }-->
+<!--    </script>-->
 @section('script')
     <script type="text/javascript">
  
        //ログを有効にする
        Pusher.logToConsole = true;
  
-       var pusher = new Pusher('[YOUR-APP-KEY]', {
-           cluster  : '[YOUR-CLUSTER]',
-           encrypted: true
+       var pusher = new Pusher("{{ config('const.pusher.app_key') }}",
+            cluster: "{{ config('const.pusher.cluster') }}",
+            encrypted: true
        });
  
        //購読するチャンネルを指定
-       var pusherChannel = pusher.subscribe('chat');
+       var pusherChannel = pusher.subscribe('my-channel');
  
        //イベントを受信したら、下記処理
-       pusherChannel.bind('chat_event', function(data) {
+       pusherChannel.bind('my-event', function(data) {
  
            let appendText;
            let login = $('input[name="login"]').val();
  
            if(data.send === login){
-               appendText = '<div class="send" style="text-align:right"><p>' + data.message + '</p></div> ';
+               appendText = '<div class="send" style="text-align:right"><p>' + data.text + '</p></div> ';
            }else if(data.recieve === login){
-               appendText = '<div class="recieve" style="text-align:left"><p>' + data.message + '</p></div> ';
+               appendText = '<div class="recieve" style="text-align:left"><p>' + data.text + '</p></div> ';
            }else{
                return false;
            }
@@ -79,7 +95,7 @@
                // ブラウザへプッシュ通知
                Push.create("新着メッセージ",
                    {
-                       body: data.message,
+                       body: data.text,
                        timeout: 8000,
                        onClick: function () {
                            window.focus();
@@ -103,14 +119,14 @@
         $('#btn_send').on('click' , function(){
             $.ajax({
                 type : 'POST',
-                url : '/chat/send',
+                url : '{{ route('messages.store') }}',
                 data : {
-                    message : $('textarea[name="message"]').val(),
-                    send : $('input[name="send"]').val(),
-                    recieve : $('input[name="recieve"]').val(),
+                    text : $('textarea[name="text"]').val(),
+                    user_id : $('input[name="user_id"]').val(),
+                    receive_user_id : $('input[name="receive_user_id"]').val(),
                 }
             }).done(function(result){
-                $('textarea[name="message"]').val('');
+                $('textarea[name="text"]').val('');
             }).fail(function(result){
  
             });

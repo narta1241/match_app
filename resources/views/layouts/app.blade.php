@@ -10,9 +10,13 @@
     <title>{{ config('app.name', 'match_app') }}</title>
 
     <!-- Scripts -->
+    <script src="https://js.pusher.com/4.3/pusher.min.js"></script>
     <script src="{{ mix('js/app.js') }}" defer></script>
-
-
+    <!--<script src="{{ mix('js/chat.js') }}" defer></script>-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/push.js/0.0.11/push.min.js"></script>
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+    
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -26,11 +30,9 @@
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'match_app') }}
+                    <img class="logo" src="/img/logo.png" alt="logo">
                 </a>
-            </div>
         </nav>
         <!--<div class="container">-->
             <main class="py-4">
@@ -46,11 +48,35 @@
                             </div>
                         @endif
                         @yield('content')
+                        <div id="faq_csv_modal_window">
+                        {{-- モーダルウィンドウ --}}
+                        @include('layouts.partials.modal_window')
+                        @section('modal_window')
+                            <div id="modal_open">
+                                <header id="modal_header" class="text-center mt-4 mb-2">
+                                    <h3>~有料会員になると~</h3>
+                                </header>
+                                <main id="modal_main" class="text-center">
+                                    <p>・マッチングユーザーとのメッセージ送受信が可能</p>
+                                    <p>・有料会員の更新時期は月初です</p>
+                                    <h2>月額/５００円</h2>
+                                </main>
+                                
+                                <footer id="modal_footer" class="row">
+                                    <p class="col-md-4" style="font-size: 12pt;"><a id="modal-close" class="button-link">閉じる</a></p>
+                                    <div class="col-md-4"></div>
+                                    <span class="col-md-4 text-right"><a href="javascript:void(0)" id="payment-submit" class="button">有料会員になる</a></span>
+                                </footer>
+                            </div>
+                        @endsection
+                        @yield('modal_window')
+                        </div>
                     </div>
             </div>
             </main>
         <!--</div>-->
     </div>
-        
+     @yield('javascript')
+     @yield('script')
 </body>
 </html>

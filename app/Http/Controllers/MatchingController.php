@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Matching;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,9 +16,27 @@ class MatchingController extends Controller
      */
     public function index()
     {
-        $matches = Matching::where('receive_user_id', Auth::id())->get();
-         
-        return view('matchings.index', compact('matches'));
+        $user_id = User::wherenotnull('deleted_at')->pluck('id');
+        $matches = Matching::where('receive_user_id', Auth::id())->wherenotin ('user_id', $user_id)->get();
+        
+        $delete_days = User::wherenotnull('deleted_at')->pluck('deleted_at');
+        $lost ="";
+        $losts = Matching::where('receive_user_id', Auth::id())->where ('user_id', $user_id)->get();
+        foreach($delete_days as $delete_day){
+            $deleted_day = strtotime($delete_day);
+            $today = date('Y-m-d');
+            $today = strtotime($today);
+            
+            $other_day = (($today - $deleted_day) / (60 * 60 * 24));
+            
+            if($other_day < 10){
+                $lost .= User::where ('deleted_at', $delete_day)->value('id');
+            }
+        }
+        
+        $losts = $losts->wherenotin('$id', $lost);
+        
+        return view('matchings.index', compact('matches', 'losts'));
     }
 
     /**

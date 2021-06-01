@@ -18,15 +18,34 @@ class FavoriteController extends Controller
      */
     public function index($pattern)
     {
+        $user_id = User::wherenotnull('deleted_at')->pluck('id');
+        // dump($user_id);
         $blocking = Block::where('blocking_user_id', Auth::id())->pluck('blocked_user_id');
+        $delete_days = User::wherenotnull('deleted_at')->pluck('deleted_at');
+        $lost ="";
+        $losts = Matching::where('receive_user_id', Auth::id())->where ('user_id', $user_id)->get();
+        foreach($delete_days as $delete_day){
+            $deleted_day = strtotime($delete_day);
+            $today = date('Y-m-d');
+            $today = strtotime($today);
+            
+            $other_day = (($today - $deleted_day) / (60 * 60 * 24));
+            
+            if($other_day < 10){
+                $lost .= User::where ('deleted_at', $delete_day)->value('id');
+            }
+        }
+        
+        $losts = $losts->wherenotin('$id', $lost);
+        
         switch($pattern){
             case 'favoritting':
-                $favorites = Favorite::where('user_id', Auth::id())->wherenotin ('profile_id', $blocking)->get();
-                return view('favorites.favoritting', compact('favorites'));
+                $favorites = Favorite::where('user_id', Auth::id())->wherenotin ('profile_id', $blocking)->wherenotin ('profile_id', $user_id)->get();
+                return view('favorites.favoritting', compact('favorites', 'losts'));
             case 'favorited':
-                $favorites = Favorite::where('profile_id', Auth::id())->wherenotin ('user_id', $blocking)->get();
+                $favorites = Favorite::where('profile_id', Auth::id())->wherenotin ('user_id', $blocking)->wherenotin ('profile_id', $user_id)->get();
                 // dd($favorites);
-                return view('favorites.favorited', compact('favorites'));
+                return view('favorites.favorited', compact('favorites', 'losts'));
             default:
                 dd($request);
         }

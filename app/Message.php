@@ -12,11 +12,5 @@ class Message extends Model
     {
         return $this->hasMany('App\Matching');
     }
-    public function room($id)
-    {
-        dump($id);
-        $room_id = $this->where('user_id', $id)->value('room_id');
-        dd($room_id);
-        return $room_id;
-    }
+    
 }

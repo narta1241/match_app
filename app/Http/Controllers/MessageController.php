@@ -34,7 +34,7 @@ class MessageController extends Controller
         });
 
         $messages = $query->get();
- 
+        // dd($messages);
         $param = [
           'send' => $loginId,
           'recieve' => $recieve_id,
@@ -42,9 +42,9 @@ class MessageController extends Controller
         // dd($messages);
         
         $profile = Profile::where('user_id', $recieve_id)->first();
-        
-        // dd($messages);
-        return view('messages.index', compact('param', 'messages', 'profile', 'matchingId'));
+        $billing = User::where('id', Auth::id())->value('billing');
+        // dd($billing);
+        return view('messages.index', compact('param', 'messages', 'profile', 'matchingId', 'billing'));
     }
 
     /**
@@ -68,51 +68,36 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        $room_id = $request->input('room_id');
-        // if(!$room_id){
-        //     $room_id = 100;
-        // }
-        Message::create([
-            'room_id' => $room_id,
-            'user_id' => Auth::id(),
-            "receive_user_id" => $request->input('receive_user_id'),
+        //リクエストパラメータ取得
+        $insertParam = [
+            'room_id' => $request->input('room_id'),
+            'user_id' => $request->input('user_id'),
+            'receive_user_id' => $request->input('receive_user_id'),
             'text' => $request->input('text'),
-            'read_flg' => 0,
-        ]);
+        ];
+
+        // メッセージデータ保存
+        try{
+            Message::insert($insertParam);
+        }catch (\Exception $e){
+           return response()->json([
+                'result' => 'error'
+            ]);
+        }
+        // イベント発火
+        event(new ChatMessageRecieved($request->all()));
         
-        $mailSendUser = User::where('id' , $request->input('receive_user_id'))->first();
-        $to = $mailSendUser->email;
-        $mail = app()->make('App\Http\Controllers\MailingController');
-        $mail->sendMail($to, $request->input('text'), Auth::user()->name);
-        $recieve = $request->input('receive_user_id');
-        
-        return redirect()->route('messages.index', ['room' => $request->input('room_id')]);
-       
-        // リクエストパラメータ取得
-        // $insertParam = [
-        //     'send' => $request->input('send'),
-        //     'recieve' => $request->input('recieve'),
-        //     'message' => $request->input('message'),
-        // ];
- 
- 
-        // // メッセージデータ保存
-        // try{
-        //     Message::insert($insertParam);
-        // }catch (\Exception $e){
-        //     return false;
- 
-        // }
-        // // イベント発火
-        // event(new ChatMessageRecieved($request->all()));
- 
-        // メール送信
-        // $mailSendUser = User::where('id' , $request->input('recieve'))->first();
+        // $mailSendUser = User::where('id' , $request->input('receive_user_id'))->first();
         // $to = $mailSendUser->email;
         // $mail = app()->make('App\Http\Controllers\MailingController');
-        // $mail->sendMail($to);
+        // $mail->sendMail($to, $request->input('text'), Auth::user()->name);
         
-        // return true;
+        // dd($insertParam);
+        return response()->json([
+                'result' => 'success'
+            ]);
+        // return redirect()->route('messages.index', ['room' => $room_id]);
+        
     }
 
     /**
@@ -160,5 +145,9 @@ class MessageController extends Controller
     public function destroy(Messages $messages)
     {
         //
+    }
+    public function script()
+    {
+        return view('messages.script');
     }
 }

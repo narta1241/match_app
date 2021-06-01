@@ -22,8 +22,18 @@
                             <button type="submit" class="btn btn-danger" onclick="return check()">ブロック</button>
                         </form>
                     </div>
-                    
                 @endforeach
+                @if($losts)
+                    @foreach($losts as $lost)
+                        <div>
+                            <img src="/img/退会.jpeg" alt="image" style="width: 25vw; height: auto;"/>
+                        </div>
+                        <div class="">
+                            <h3>{{ $lost->profile->name." ". $lost->profile->age."歳" }}</h3>
+                            <p class="text-danger">このユーザーは退会済みです</p>
+                        </div>
+                    @endforeach
+                @endif
                 </div>
             </div>
         </div>

@@ -1,21 +1,23 @@
 <?php
-
+ 
 namespace App\Events;
-
+ 
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-
-class ChatMessageRecieved
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Support\Facades\Auth;
+ 
+class ChatMessageRecieved implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
+ 
     protected $message;
     protected $request;
+ 
     /**
      * Create a new event instance.
      *
@@ -24,18 +26,21 @@ class ChatMessageRecieved
     public function __construct($request)
     {
         $this->request = $request;
+ 
     }
-
+ 
     /**
      * イベントをブロードキャストすべき、チャンネルの取得
      *
-     * @return \Illuminate\Broadcasting\Channel|array
+     * @return Channel|Channel[]
      */
     public function broadcastOn()
     {
+ 
         return new Channel('chat');
+ 
     }
-    
+ 
     /**
      * ブロードキャストするデータを取得
      *
@@ -43,11 +48,12 @@ class ChatMessageRecieved
      */
     public function broadcastWith()
     {
- 
+        // dd($this);
         return [
-            'message' => $this->request['message'],
-            'send' => $this->request['send'],
-            'recieve' => $this->request['recieve'],
+            'room_id' => $this->request['room_id'],
+            'text' => $this->request['text'],
+            'user_id' => $this->request['user_id'],
+            'receive_user_id' => $this->request['receive_user_id'],
         ];
     }
  
