@@ -60,7 +60,7 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        dump($request);
         // dd($request);
         $birthday = $request->input('year'). $request->input('month'). $request->input('day');
         // $request->validate([       // <-- ここがバリデーション部分
@@ -101,7 +101,7 @@ class ProfileController extends Controller
                     }
     			}
     		}
-	    } catch (\Exceprion $e) {
+	    } catch (\Exception $e) {
 	        dd($e);
 	    }
 		
