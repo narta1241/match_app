@@ -129,6 +129,8 @@ class ProfileController extends Controller
      */
     public function edit(Profile $profile)
     {
+        dd($profile);
+        
         try {
             $hob = Hobby::where('profile_id', $profile->user_id)->pluck('hobby');
             $profile = Profile::where('user_id', $profile->user_id)->first();
