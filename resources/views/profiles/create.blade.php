@@ -9,7 +9,7 @@
 
                 <div class="card-body">
                     <!--<form method="POST" action="{{ route('profiles.store') }}">-->
-                    <form method="POST" action="/profiles/" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('profiles.store') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label for="name" class="col-form-label">名前</label>
