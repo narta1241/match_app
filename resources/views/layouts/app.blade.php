@@ -12,7 +12,6 @@
     <!-- Scripts -->
     <script src="https://js.pusher.com/4.3/pusher.min.js"></script>
     <script src="{{ mix('js/app.js') }}" defer></script>
-    <!--<script src="{{ mix('js/chat.js') }}" defer></script>-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/push.js/0.0.11/push.min.js"></script>
     <script src="https://checkout.stripe.com/checkout.js"></script>
@@ -24,7 +23,7 @@
   
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/sidebar.css') }}" rel="stylesheet">
 </head>
 <body>

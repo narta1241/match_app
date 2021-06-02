@@ -16,8 +16,14 @@ class MatchingController extends Controller
      */
     public function index()
     {
+        $matchingModel = Matching::where('receive_user_id', Auth::id());
+        
         $user_id = User::wherenotnull('deleted_at')->pluck('id');
-        $matches = Matching::where('receive_user_id', Auth::id())->wherenotin ('user_id', $user_id)->get();
+        if ($user_id) {
+            $matchingModel->wherenotin('user_id', $user_id);
+        }
+        
+        $matches = $matchingModel->get();
         
         $delete_days = User::wherenotnull('deleted_at')->pluck('deleted_at');
         $lost ="";

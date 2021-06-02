@@ -129,13 +129,17 @@ class ProfileController extends Controller
      */
     public function edit(Profile $profile)
     {
-        $hob = Hobby::where('profile_id', $profile->user_id)->pluck('hobby');
-        $profile = Profile::where('user_id', $profile->user_id)->first();
-        // dump($hob);
-        $birthday = $profile->birthday;
-        $y = substr($birthday, 0, 4);
-        $m = substr($birthday, 4, 2);
-        $d = substr($birthday, 6, 2);
+        try {
+            $hob = Hobby::where('profile_id', $profile->user_id)->pluck('hobby');
+            $profile = Profile::where('user_id', $profile->user_id)->first();
+            // dump($hob);
+            $birthday = $profile->birthday;
+            $y = substr($birthday, 0, 4);
+            $m = substr($birthday, 4, 2);
+            $d = substr($birthday, 6, 2);
+        } catch (\Exception $e) {
+            dd($e);
+        }
         return view('profiles.edit', compact('profile', 'hob', 'y', 'm', 'd'));
     }
 
