@@ -60,7 +60,7 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        dump($request);
+        Log::error($request);
         // dd($request);
         $birthday = $request->input('year'). $request->input('month'). $request->input('day');
         // $request->validate([       // <-- ここがバリデーション部分
@@ -69,43 +69,39 @@ class ProfileController extends Controller
         // ]);
 
         $upload_image = $request->file('image');
+        Log::error($upload_image);
 	    
-	    try {
-    		if($upload_image) {
-    			//アップロードされた画像を保存する
-    			$path = $upload_image->store('uploads',"public");
-                dd($path);
-            // dd($path);
-    			//画像の保存に成功したらDBに記録する
-    			if($path){
-                    Profile::create([
-                        'name' => $request->input('name'),
-                        'image' => $upload_image->getClientOriginalName(),
-                        "image_path" => $path,
-                        'introduction' => $request->input('introduction'),
-                        'age' => $request->input('age'),
-                        'sex' => $request->input('sex'),
-                        'birthday' => $birthday,
-                        'residence' => $request->input('residence'),
-                        'user_id' => Auth::id(),
-                        'height' => $request->input('height'),
-                        'weight' => $request->input('weight')
-                    ]);
-                    $choice = $request->input('hobby');
-                    foreach ($choice as $hob) {
-                        $hobby = new Hobby();
-                        $hobby->profile_id = Auth::id();
-                        $hobby->hobby = $hob;
-                        // $hobby->genre = "";
-                        $hobby->save();
-                    }
-    			}
-    		}
-	    } catch (\Exception $e) {
-	        dd($e);
-	    }
-		
-        dd($upload_image);
+		if($upload_image) {
+			//アップロードされた画像を保存する
+			$path = $upload_image->store('uploads',"public");
+            Log::error($path);
+        // dd($path);
+			//画像の保存に成功したらDBに記録する
+			if($path){
+                Profile::create([
+                    'name' => $request->input('name'),
+                    'image' => $upload_image->getClientOriginalName(),
+                    "image_path" => $path,
+                    'introduction' => $request->input('introduction'),
+                    'age' => $request->input('age'),
+                    'sex' => $request->input('sex'),
+                    'birthday' => $birthday,
+                    'residence' => $request->input('residence'),
+                    'user_id' => Auth::id(),
+                    'height' => $request->input('height'),
+                    'weight' => $request->input('weight')
+                ]);
+                $choice = $request->input('hobby');
+                foreach ($choice as $hob) {
+                    $hobby = new Hobby();
+                    $hobby->profile_id = Auth::id();
+                    $hobby->hobby = $hob;
+                    // $hobby->genre = "";
+                    $hobby->save();
+                }
+			}
+		}
+        
         return redirect()->route('profiles.index');
     }
 
