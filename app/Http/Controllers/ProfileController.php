@@ -73,6 +73,7 @@ class ProfileController extends Controller
     		if($upload_image) {
     			//アップロードされた画像を保存する
     			$path = $upload_image->store('uploads',"public");
+                dd($path);
             // dd($path);
     			//画像の保存に成功したらDBに記録する
     			if($path){
@@ -103,6 +104,7 @@ class ProfileController extends Controller
 	        dd($e);
 	    }
 		
+        dd($upload_image);
         return redirect()->route('profiles.index');
     }
 
