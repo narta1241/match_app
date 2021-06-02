@@ -60,7 +60,6 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        Log::error($request);
         // dd($request);
         $birthday = $request->input('year'). $request->input('month'). $request->input('day');
         // $request->validate([       // <-- ここがバリデーション部分
@@ -69,12 +68,11 @@ class ProfileController extends Controller
         // ]);
 
         $upload_image = $request->file('image');
-        Log::error($upload_image);
 	    
 		if($upload_image) {
 			//アップロードされた画像を保存する
 			$path = $upload_image->store('uploads',"public");
-            Log::error($path);
+            dump($path);
         // dd($path);
 			//画像の保存に成功したらDBに記録する
 			if($path){
@@ -101,8 +99,9 @@ class ProfileController extends Controller
                 }
 			}
 		}
+		dump($upload_image);
         
-        return redirect()->route('profiles.index');
+        return view('profiles.index');
     }
 
     /**
