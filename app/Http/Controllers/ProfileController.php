@@ -68,38 +68,41 @@ class ProfileController extends Controller
         // ]);
 
         $upload_image = $request->file('image');
-	
-		if($upload_image) {
-			//アップロードされた画像を保存する
-			$path = $upload_image->store('uploads',"public");
-        // dd($path);
-			//画像の保存に成功したらDBに記録する
-			if($path){
-                Profile::create([
-                    'name' => $request->input('name'),
-                    'image' => $upload_image->getClientOriginalName(),
-                    "image_path" => $path,
-                    'introduction' => $request->input('introduction'),
-                    'age' => $request->input('age'),
-                    'sex' => $request->input('sex'),
-                    'birthday' => $birthday,
-                    'residence' => $request->input('residence'),
-                    'user_id' => Auth::id(),
-                    'height' => $request->input('height'),
-                    'weight' => $request->input('weight')
-                ]);
-                $choice = $request->input('hobby');
-                foreach ($choice as $hob) {
-                    $hobby = new hobby();
-                    $hobby->profile_id = Auth::id();
-                    $hobby->hobby = $hob;
-                    // $hobby->genre = "";
-                    $hobby->save();
-                }
-			}
-		}
+	    
+	    try {
+    		if($upload_image) {
+    			//アップロードされた画像を保存する
+    			$path = $upload_image->store('uploads',"public");
+            // dd($path);
+    			//画像の保存に成功したらDBに記録する
+    			if($path){
+                    Profile::create([
+                        'name' => $request->input('name'),
+                        'image' => $upload_image->getClientOriginalName(),
+                        "image_path" => $path,
+                        'introduction' => $request->input('introduction'),
+                        'age' => $request->input('age'),
+                        'sex' => $request->input('sex'),
+                        'birthday' => $birthday,
+                        'residence' => $request->input('residence'),
+                        'user_id' => Auth::id(),
+                        'height' => $request->input('height'),
+                        'weight' => $request->input('weight')
+                    ]);
+                    $choice = $request->input('hobby');
+                    foreach ($choice as $hob) {
+                        $hobby = new Hobby();
+                        $hobby->profile_id = Auth::id();
+                        $hobby->hobby = $hob;
+                        // $hobby->genre = "";
+                        $hobby->save();
+                    }
+    			}
+    		}
+	    } catch (\Exceprion $e) {
+	        dd($e);
+	    }
 		
-
         return redirect()->route('profiles.index');
     }
 
@@ -129,19 +132,13 @@ class ProfileController extends Controller
      */
     public function edit(Profile $profile)
     {
-        dd($profile);
-        
-        try {
-            $hob = Hobby::where('profile_id', $profile->user_id)->pluck('hobby');
-            $profile = Profile::where('user_id', $profile->user_id)->first();
-            // dump($hob);
-            $birthday = $profile->birthday;
-            $y = substr($birthday, 0, 4);
-            $m = substr($birthday, 4, 2);
-            $d = substr($birthday, 6, 2);
-        } catch (\Exception $e) {
-            dd($e);
-        }
+        $hob = Hobby::where('profile_id', $profile->user_id)->pluck('hobby');
+        $profile = Profile::where('user_id', $profile->user_id)->first();
+        // dump($hob);
+        $birthday = $profile->birthday;
+        $y = substr($birthday, 0, 4);
+        $m = substr($birthday, 4, 2);
+        $d = substr($birthday, 6, 2);
         return view('profiles.edit', compact('profile', 'hob', 'y', 'm', 'd'));
     }
 
