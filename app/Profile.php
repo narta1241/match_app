@@ -45,18 +45,6 @@ class Profile extends Model
     {
         return $this->hasMany('App\Matching');
     }
-    public function footprint()
-    {
-        return $this->hasMany('App\FootPrint', 'footting_user_id', 'user_id');
-    }
-    public function foottime($id)
-    {
-        $usertime = $this->footprint()->where('footting_user_id', $id)->value('updated_at');
-        $usertime = strtotime($usertime);
-        
-        $today = date('Y-m-d');
-        $today = strtotime($today);
-        
-        return  intval(($today - $usertime) / (60 * 60 * 24));
-    }
+    
+    
 }
