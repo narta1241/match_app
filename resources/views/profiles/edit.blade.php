@@ -17,20 +17,28 @@
                         <div>
                             <div>
                                 <label for="image" class="col-form-label">{{ __('画像') }}</label>
-                                <span id="image"><input type="file" id="image" name="image" accept="image/png, image/jpeg"></span>
-                                <input type="button" value="クリア" onclick="sample('image')">
+                                <input type="file" id="myImage" name="image" accept="image/png, image/jpeg">
+                                
+                                <label for="preview" class="col-form-label">{{ __(' プレビュー ') }}</label>
+                                <img id="preview" style="width: 30%; height: 30%;">
                             </div>
                             <label for="image" class="col-form-label">{{ __('現在登録画像') }}</label>
-                            <img src="{{ Storage::url($profile->image_path) }}" alt="image" style="width: 30%; height: auto;"/>
+                            
+                            <img id="previewImage" src="data:image/png;base64,{{$profile->image}}" alt="image" style="width: 30%; height: 30%;"/>
+                            
+                       <!--     <form method="POST" action="" accept-charset="UTF-8" id="admin-blog-form" class="form-horizontal" enctype="multipart/form-data">-->
+                       <!--         @csrf-->
+                    			<!-- ここにプレビューボタンを追記 -->
+                    			<!--<input id="admin-blog-preview-btn" class="btn btn-warning" type="submit" value="プレビュー">-->
+                       <!--     </form>-->
                         </div>
+                        
+                        
                         <div class="form-group">
                             <label for="introduction" class="col-form-label">自己紹介</label>
                             <input type="text" id="introduction" name="introduction" class="form-control" value={{ $profile->introduction }}>
                         </div>
-                        <div class="form-group">
-                            <label for="age" class="col-form-label">年齢</label>
-                            <input type="number" id="age" name="age" class="form-control" value={{ $profile->age }}>
-                        </div>
+                       
                         <div class="form-group">
                     		<label>性別</label>
                     		<label for="sex_male"><input id="sex_male" type="radio" name="sex" value="0" <?php if( $profile->sex == '0' ){ echo 'checked'; } ?>>男性</label>
@@ -95,10 +103,23 @@
 @endsection
 
 @section('javascript')
-  <script type="text/javascript">
-function sample(oId){
-	var obj = document.getElementById(oId);
-	var stO = obj.innerHTML;
-	obj.innerHTML = stO;
-}
-</script>
+
+    <!--<script type="text/javascript">-->
+    <!--function sample(oId){-->
+    <!--	var obj = document.getElementById(oId);-->
+    <!--	var stO = obj.innerHTML;-->
+    <!--	obj.innerHTML = stO;-->
+    <!--}-->
+    <!--</script>-->
+    
+    <script type="text/javascript">
+    $(document).on('change', 'input[type="file"]',  function (e) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $("#preview").attr('src', e.target.result);
+        }
+        reader.readAsDataURL(e.target.files[0]);
+    });
+    </script>
+@endsection
+

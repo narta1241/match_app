@@ -9,7 +9,7 @@
                     <p>いいねした</p>
                 @foreach($favorites as $favorite)
                     <div>
-                        <a href={{ route('profiles.show', $favorite->profile->id) }}><img src="{{ Storage::url($favorite->profile['image_path']) }}" alt="image" style="width: 25vw; height: auto;"/></a>
+                        <a href={{ route('profiles.show', $favorite->profile->id) }}><img src="{{ Storage::url($favorite->profile['image_path']) }}" alt="image" style="width: 400px; height: 350px;"/></a>
                     </div>
                     <div class="">
                         <h3>{{ $favorite->profile->name." ". $favorite->profile->age."歳" }}</h3>
@@ -24,7 +24,7 @@
                 @if($losts)
                     @foreach($losts as $lost)
                         <div>
-                            <img src="/img/退会.jpeg" alt="image" style="width: 25vw; height: auto;"/>
+                            <img src="/img/退会.jpeg" alt="image" style="width:  400px; height: 350px;"/>
                         </div>
                         <div class="">
                             <h3>{{ $lost->profile->name." ". $lost->profile->age."歳" }}</h3>

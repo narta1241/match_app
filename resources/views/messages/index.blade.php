@@ -53,6 +53,8 @@
                 <span class="user_id text-danger rounded-lg" style="font-size:24px;background-color:skyblue;">
                    ※有料会員のみメッセージの送受信が可能です※
                 </span>
+                 
+                <div class="btn billingBtn"><a class="text-white" id="modal-open" href="javascript:void(0)">有料会員になる</a></div>
             @endif
                 <input type="hidden" id="room_id" name="room_id" value="{{ $matchingId }}">
                 <input type="hidden" id="user_id" name="user_id" value="{{ $param['send'] }}">

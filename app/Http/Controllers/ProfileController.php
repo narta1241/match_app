@@ -19,26 +19,8 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        // $user = User::where('id', Auth::id())->first();
-        // if (!empty($_GET['search'])) {
-        $blocked = Block::where('blocked_user_id', Auth::id())->pluck('blocking_user_id');
-        $blocking = Block::where('blocking_user_id', Auth::id())->pluck('blocked_user_id');
-        // dd($blocking);
-        
-            $gender = Profile::where('user_id', Auth::id())->value('sex');
-            if($gender == 0)
-            {
-                $gender = 1;
-            }else{
-                $gender = 0;
-            }
-            // dd($gender);
-            $user_id = User::wherenotnull('deleted_at')->pluck('id');
-            $matchList = Profile::where ('sex', $gender)->wherenotin ('id', $blocking)->wherenotin ('id', $user_id)->get();
-            // dd($matchList);
-        // } else {
-            
-        // }
+        $matchList = Profile::getmatchList($_GET, Auth::id());
+           
         return view('profiles.index', compact('matchList'));
     }
 
@@ -66,7 +48,9 @@ class ProfileController extends Controller
         //     'title' => "required|unique:series,title,$request->title",
         //     'current_volume' => 'required',
         // ]);
-
+        $now = date("Ymd");
+        
+        $profile->image = base64_encode(file_get_contents($request->image->getRealPath()));
         $upload_image = $request->file('image');
 	    
 		if($upload_image) {
@@ -77,10 +61,10 @@ class ProfileController extends Controller
 			if($path){
                 Profile::create([
                     'name' => $request->input('name'),
-                    'image' => $upload_image->getClientOriginalName(),
+                    'image' => $profile->image,
                     "image_path" => $path,
                     'introduction' => $request->input('introduction'),
-                    'age' => $request->input('age'),
+                    'age' => floor(($now-$birthday)/10000),
                     'sex' => $request->input('sex'),
                     'birthday' => $birthday,
                     'residence' => $request->input('residence'),
@@ -149,6 +133,8 @@ class ProfileController extends Controller
     {
         $birthday = $request->input('year'). $request->input('month'). $request->input('day');
         // dd($birthday);
+        $now = date("Ymd");
+        
         if($request->file('image')){
             $upload_image = $request->file('image');
             // dd($upload_image);
@@ -156,13 +142,13 @@ class ProfileController extends Controller
 			$path = $upload_image->store('uploads',"public");
             // dump($path);
 			if($path){
-                $profile->image = $upload_image->getClientOriginalName();
+                $profile->image = base64_encode(file_get_contents($request->image->getRealPath()));
                 $profile->image_path = $path;
 			}
         }
             $profile->name = $request->input('name');
             $profile->introduction = $request->input('introduction');
-            $profile->age = $request->input('age');
+            $profile->age = floor(($now-$birthday)/10000);
             $profile->sex = $request->input('sex');
             $profile->birthday = $birthday;
             $profile->residence = $request->input('residence');
@@ -209,4 +195,5 @@ class ProfileController extends Controller
         User::where('id', $id)->update(['deleted_at' => $today]);
         return redirect()->route('profiles.index');
     }
+   
 }

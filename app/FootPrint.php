@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\User;
 
 class FootPrint extends Model
 {
@@ -16,7 +17,7 @@ class FootPrint extends Model
     }
     public function user()
     {
-        return $this->belongsTo('App\User', 'footed_user_id');
+        return $this->belongsTo('App\User', 'footting_user_id');
     }
     
     /**
@@ -30,8 +31,9 @@ class FootPrint extends Model
         $footModel = FootPrint::where('footed_user_id', $loginUserId);
         
         $withdrawUserIds = User::wherenotnull('deleted_at')->pluck('id');
+    
         if ($withdrawUserIds) {
-            $footModel->wherenotin('footed_user_id', $withdrawUserIds);
+            $footModel->wherenotin('footting_user_id', $withdrawUserIds);
         }
         
         return $footModel->get();
@@ -49,7 +51,7 @@ class FootPrint extends Model
         $withdrawUserIds = [];
         foreach ($footPrints as $footPrint) {
             $user = $footPrint->user;
-            // dd($user);
+            // dump($user);
             if (!$user->deleted_at) {
                 continue;
             }
@@ -67,7 +69,7 @@ class FootPrint extends Model
             }
         }
         
-        return FootPrint::where('footed_user_id', $withdrawUserIds)->get();
+        return FootPrint::where('footting_user_id', $withdrawUserIds)->where('footed_user_id', $loginUserId)->get();
     }
     /**
      * 足跡をつけたユーザーIDに紐づくデータを取得する

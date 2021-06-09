@@ -17,17 +17,16 @@
                         </div>
                         <div>
                             <label for="image" class="col-form-label">{{ __('画像') }}</label>
-                            <input type="file" id="image" name="image" accept="image/png, image/jpeg">
-                            <div id="preview"></div>
+                             <input type="file" id="myImage" name="image" accept="image/png, image/jpeg">
+                                
+                            <label for="preview" class="col-form-label">{{ __(' プレビュー ') }}</label>
+                            <img id="preview" style="width: 30%; height: 30%;">
                         </div>
                         <div class="form-group">
                             <label for="introduction" class="col-form-label text-md-right">自己紹介</label>
                             <input type="text" id="introduction" name="introduction" class="form-control">
                         </div>
-                        <div class="form-group">
-                            <label for="age" class="col-form-label text-md-right">年齢</label>
-                            <input type="number" id="age" name="age" class="form-control">
-                        </div>
+                        
                         <div class="form-group">
                     		<label>性別</label>
                     		<label for="sex_male"><input id="sex_male" type="radio" name="sex" value="0"<?php if( !empty($clean['sex']) && $clean['sex'] === "male" ){ echo 'checked'; } ?>>男性</label>
@@ -100,23 +99,14 @@
 @endsection
 
 @section('javascript')
-    <script>
-function previewFile(file) {
-  // プレビュー画像を追加する要素
-  const preview = document.getElementById('preview');
-
-  // FileReaderオブジェクトを作成
-  const reader = new FileReader();
-
-  // URLとして読み込まれたときに実行する処理
-  reader.onload = function (e) {
-    const imageUrl = e.target.result; // URLはevent.target.resultで呼び出せる
-    const img = document.createElement("img"); // img要素を作成
-    img.src = imageUrl; // URLをimg要素にセット
-    preview.appendChild(img); // #previewの中に追加
-  }
-
-  // いざファイルをURLとして読み込む
-  reader.readAsDataURL(file);
-}
-</script>
+    
+    <script type="text/javascript">
+        $(document).on('change', 'input[type="file"]',  function (e) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $("#preview").attr('src', e.target.result);
+            }
+            reader.readAsDataURL(e.target.files[0]);
+        });
+    </script>
+@endsection

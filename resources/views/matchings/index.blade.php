@@ -9,7 +9,7 @@
                         <h3>マッチングユーザー一覧</h3>
                 @foreach($matches as $match)
                     <div>
-                        <img src="{{ Storage::url($match->profile->image_path) }}" alt="image" style="width: 25vw; height: auto;"/>
+                        <img src="{{ Storage::url($match->profile->image_path) }}" alt="image" style="width: 400px; height: 350px;"/>
                     </div>
                     <div class="">
                         <h3>{{ $match->profile->name." ". $match->profile->age."歳" }}</h3>
@@ -26,7 +26,7 @@
                 @if($losts)
                     @foreach($losts as $lost)
                         <div>
-                            <img src="/img/退会.jpeg" alt="image" style="width: 25vw; height: auto;"/>
+                            <img src="/img/退会.jpeg" alt="image" style="width: 400px; height: 350px;"/>
                         </div>
                         <div class="">
                             <h3>{{ $lost->profile->name." ". $lost->profile->age."歳" }}</h3>

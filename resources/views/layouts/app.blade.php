@@ -70,6 +70,7 @@
                         @endsection
                         @yield('modal_window')
                         </div>
+                        
                     </div>
             </div>
             </main>

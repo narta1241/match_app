@@ -24,17 +24,7 @@
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <!--<a class="dropdown-item" href="{{ route('emails.index') }}">-->
-                        <!--    {{ __('　メールアドレス変更') }}-->
-                        <!--</a>-->
-                        <!--<a class="dropdown-item" href="{{ route('user.password.edit') }}">-->
-                        <!--    {{ __('　パスワード変更') }}-->
-                        <!--</a>-->
-                        <!--@if (Auth::user()->billing == 1)-->
-                        <!--    <a class="dropdown-item" href="{{ route('payout') }}" onclick="if(confirm('本当に有料会員を辞めますか?')) { return true } else {return false };">-->
-                        <!--        {{ __('　有料会員を辞める') }}-->
-                        <!--    </a>-->
-                        <!--@endif-->
+                        
                         <a class="dropdown-item" href="{{ route('logout') }}"
                            onclick="event.preventDefault();
                                          document.getElementById('logout-form').submit();">
@@ -43,10 +33,7 @@
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
                         </form>
-                        <!--<a class="dropdown-item" href="{{ route('profiles.withdrawal', Auth::user()->id) }}">-->
-                        <!--    {{ __('　退会する') }}-->
-                        <!--</a>-->
-                
+                       
                     </div>
                 </li>
             @endguest

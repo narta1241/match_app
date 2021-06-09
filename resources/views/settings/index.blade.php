@@ -21,7 +21,7 @@
             </li>
             <li>
                 @if ($user->billing == 1)
-                    <a class="" style="color:black;" href="{{ route('payout') }}" onclick="if(confirm('本当に有料会員を辞めますか?')) { return true } else {return false };">
+                    <a class="glyphicon glyphicon-menu-right" style="color:black;" href="{{ route('payout') }}" onclick="if(confirm('本当に有料会員を辞めますか?')) { return true } else {return false };">
                         {{ __('　有料会員を辞める') }}
                     </a>
                 @else

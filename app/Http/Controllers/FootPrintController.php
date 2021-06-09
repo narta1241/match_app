@@ -16,7 +16,7 @@ class FootPrintController extends Controller
         $footprints = FootPrint::getByLoginUserId(Auth::id());
         
         $withdrawMatchings = FootPrint::getWithdrawByLoginUserId(Auth::id());
-        
+        // dd($withdrawMatchings);
         return view('footprints.index', [
             "footprints" => $footprints,
             "losts" => $withdrawMatchings,

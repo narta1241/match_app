@@ -6,7 +6,7 @@
             <div class="text-center">
                 @foreach($footprints as $footprint)
                     <div>
-                        <a href={{ route('profiles.show', $footprint->profile->id) }}><img src="{{ Storage::url($footprint->profile->image_path) }}" alt="image" style="width: 25vw; height: auto;"/></a>
+                        <a href={{ route('profiles.show', $footprint->profile->id) }}><img src="{{ Storage::url($footprint->profile->image_path) }}" alt="image" style="width: 400px; height: 350px;"/></a>
                     </div>
                     <div>
                         <h3>{{ $footprint->profile->name." ". $footprint->profile->age."歳　".$footprint->foottime($footprint->profile->user_id)."日前" }}</h3>
@@ -15,7 +15,7 @@
                 @if($losts)
                     @foreach($losts as $lost)
                         <div>
-                            <img src="/img/退会.jpeg" alt="image" style="width: 25vw; height: auto;"/>
+                            <img src="/img/退会.jpeg" alt="image" style="width: 400px; height: 350px;"/>
                         </div>
                         <div class="">
                             <h3>{{ $lost->profile->name." ". $lost->profile->age."歳" }}</h3>

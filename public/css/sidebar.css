@@ -97,6 +97,11 @@ body {
       color: #fff;
       font-size: 20px;
     }
+    /*.loginPage_btn a {*/
+    /*  display: block;*/
+      
+    /*  padding: 20px;*/
+    /*}*/
   .logo{
     width: 70px;
 		height: 50px;
@@ -128,4 +133,27 @@ li {
 }
 .setting li:hover{
   background: #DDDDDD;
+}
+.searchBtn{
+  text-align: right;
+}
+.sBtnContents{
+  font-size: 1.5rem;
+  background: #fd5068;
+  color: #fff;
+  border-radius: 30px;
+}
+.sBtnContents a:hover{
+  text-decoration: underline ;
+}
+.billingBtn{
+  display: block;
+  max-width: 200px;
+  
+  padding: 20px;
+  margin: 0 auto;
+  border-radius: 30px;
+  background: #fd5068;
+  color: #fff;
+  font-size: 20px;
 }

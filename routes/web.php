@@ -10,6 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('search', 'SearchController@index')->name('search.index')->middleware('auth');
 Route::resource('profiles', 'ProfileController')->middleware('auth');
 // Route::resource('blocks', 'BlockController')->middleware('auth');
 Route::get('favorites/{pattern}', 'FavoriteController@index')->name('favorites.index')->middleware('auth');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Block;
 use App\Matching;
 use Illuminate\Http\Request;
@@ -17,7 +18,8 @@ class BlockController extends Controller
     public function index()
     {
         // dd('a');
-        $users = Block::where('blocking_user_id', Auth::id())->get();
+        $deletedUser = User::wherenotnull('deleted_at')->pluck('id');
+        $users = Block::where('blocking_user_id', Auth::id())->wherenotin('id', $deletedUser)->get();
         
         return view('blocks.index',compact('users'));
     }

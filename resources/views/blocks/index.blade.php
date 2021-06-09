@@ -6,7 +6,7 @@
             <div class="text-center">
                 @foreach($users as $user)
                     <div>
-                        <a href={{ route('profiles.show', $user->blocked_user_id) }}><img src="{{ Storage::url($user->profile->image_path) }}" alt="image" style="width: 25vw; height: auto;"/></a>
+                        <a href={{ route('profiles.show', $user->blocked_user_id) }}><img src="{{ Storage::url($user->profile->image_path) }}" alt="image" style="width:400px; height: auto;"/></a>
                     </div>
                     <div>
                         <h3>{{ $user->profile->name }}</h3>
