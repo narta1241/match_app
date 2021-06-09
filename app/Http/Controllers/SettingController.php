@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class SettingController extends Controller
 {
-    public function setting()
+    public function setting(Request $request)
     {
         $user = User::where('id', Auth::id())->first();
         
@@ -16,8 +16,8 @@ class SettingController extends Controller
           env('STRIPE_SECRET_KEY'),
         );
         $response = $stripe->checkout->sessions->create([
-          'success_url' => 'https://9d0cd6b219e94288b45c5ed587e35390.vfs.cloud9.ap-northeast-1.amazonaws.com/matchings',
-          'cancel_url' => 'https://9d0cd6b219e94288b45c5ed587e35390.vfs.cloud9.ap-northeast-1.amazonaws.com/setting',
+          'success_url' => $request->getSchemeAndHttpHost(). '/matchings',
+          'cancel_url' => $request->getSchemeAndHttpHost(). '/setting',
           'payment_method_types' => ['card'],
           'line_items' => [
             [
