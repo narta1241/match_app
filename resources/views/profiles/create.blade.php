@@ -17,7 +17,7 @@
                         </div>
                         <div>
                             <label for="image" class="col-form-label">{{ __('画像') }}</label>
-                             <input type="file" id="myImage" name="image" accept="image/png, image/jpeg">
+                            <input type="file" id="myImage" name="image" accept="image/png, image/jpeg">
                                 
                             <label for="preview" class="col-form-label">{{ __(' プレビュー ') }}</label>
                             <img id="preview" style="width: 30%; height: 30%;">

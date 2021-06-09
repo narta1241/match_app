@@ -14,7 +14,7 @@ class ChangeColumnsProfileTable extends Migration
     public function up()
     {
         Schema::table('profiles', function (Blueprint $table) {
-          $table->text('image')->change();;
+          $table->longText('image')->change();
        });
     }
 
@@ -26,7 +26,7 @@ class ChangeColumnsProfileTable extends Migration
     public function down()
     {
         Schema::table('profiles', function (Blueprint $table) {
-          $table->string('image')->change();;
+          $table->string('image')->change();
        });
     }
 }

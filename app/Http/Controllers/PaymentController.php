@@ -28,7 +28,6 @@ class PaymentController extends Controller
         //     'source'=> request()->stripeToken,
         //   ));
           $subscription =  \Stripe\Subscription::create([
-              
               "customer" => "$customer->id",
               'items' => [
                 [

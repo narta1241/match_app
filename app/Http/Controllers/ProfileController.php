@@ -9,6 +9,7 @@ use App\Block;
 use App\FootPrint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Cashier\Cashier;
 
 class ProfileController extends Controller
 {
@@ -49,8 +50,6 @@ class ProfileController extends Controller
         //     'current_volume' => 'required',
         // ]);
         $now = date("Ymd");
-        
-        $profile->image = base64_encode(file_get_contents($request->image->getRealPath()));
         $upload_image = $request->file('image');
 	    
 		if($upload_image) {
@@ -61,7 +60,7 @@ class ProfileController extends Controller
 			if($path){
                 Profile::create([
                     'name' => $request->input('name'),
-                    'image' => $profile->image,
+                    'image' => base64_encode(file_get_contents($upload_image->getRealPath())),
                     "image_path" => $path,
                     'introduction' => $request->input('introduction'),
                     'age' => floor(($now-$birthday)/10000),
@@ -110,10 +109,10 @@ class ProfileController extends Controller
      * @param  \App\Profile  $profile
      * @return \Illuminate\Http\Response
      */
-    public function edit(Profile $profile)
+    public function edit()
     {
-        $hob = Hobby::where('profile_id', $profile->user_id)->pluck('hobby');
-        $profile = Profile::where('user_id', $profile->user_id)->first();
+        $hob = Hobby::where('profile_id', Auth::id())->pluck('hobby');
+        $profile = Profile::where('user_id', Auth::id())->first();
         // dump($hob);
         $birthday = $profile->birthday;
         $y = substr($birthday, 0, 4);
@@ -142,7 +141,7 @@ class ProfileController extends Controller
 			$path = $upload_image->store('uploads',"public");
             // dump($path);
 			if($path){
-                $profile->image = base64_encode(file_get_contents($request->image->getRealPath()));
+                $profile->image = base64_encode(file_get_contents($upload_image->getRealPath()));
                 $profile->image_path = $path;
 			}
         }
@@ -190,9 +189,24 @@ class ProfileController extends Controller
     }
     public function withdrawal($id)
     {
+        $user =Auth::user();
+        // 有料会員のキャンセル
+        \Stripe\Stripe::setApiKey('sk_test_51IieGhE9LwkIsOfen0F6eSO2VSmA6A2XNXQrujly8EhAQu2HmXgZNVurgO1KzjQKHKuyWbcQhEkuAkfbKp411bJ400CEHBVpgP');
+
+        \Stripe\Subscription::update(
+          'sub_49ty4767H20z6a',
+          [
+            'cancel_at_period_end' => true,
+          ]
+        );
+        
         $today = date('Y-m-d');
-        Auth::logout();
+        
+        // ユーザーの削除
         User::where('id', $id)->update(['deleted_at' => $today]);
+        
+        Auth::logout();
+        
         return redirect()->route('profiles.index');
     }
    
