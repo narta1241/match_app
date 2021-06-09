@@ -190,6 +190,8 @@ class ProfileController extends Controller
     public function withdrawal($id)
     {
         $user =Auth::user();
+        
+        dd($user);
         // 有料会員のキャンセル
         \Stripe\Stripe::setApiKey('sk_test_51IieGhE9LwkIsOfen0F6eSO2VSmA6A2XNXQrujly8EhAQu2HmXgZNVurgO1KzjQKHKuyWbcQhEkuAkfbKp411bJ400CEHBVpgP');
 
