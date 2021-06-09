@@ -23,8 +23,8 @@ class Payment extends Model
     {
         dump($token);
         dump($user);
-        Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
-        // dd(Stripe::setApiKey(env('STRIPE_SECRET_KEY')));
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+        // dd(Stripe::setApiKey(env('STRIPE_SECRET')));
         //Stripe上に顧客情報をtokenを使用することで保存
         try {
             $customer = \Stripe\Customer::create([
@@ -76,7 +76,7 @@ class Payment extends Model
      */
     public static function updateCustomer($token, $user)
     {
-        Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+        Stripe::setApiKey(env('STRIPE_SECRET'));
 
         try {
             $customer = \Stripe\Customer::retrieve($user->stripe_id);
@@ -113,7 +113,7 @@ class Payment extends Model
      */
     protected static function getDefaultcard($user)
     {
-        Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+        Stripe::setApiKey(env('STRIPE_SECRET'));
 
         $default_card = null;
 
@@ -147,7 +147,7 @@ class Payment extends Model
     protected static function deleteCard($user)
     {
         dump($user);
-        Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+        Stripe::setApiKey(env('STRIPE_SECRET'));
         $customer = \Stripe\Customer::retrieve($user->stripe_id);
         dump($customer);
         // $card = $customer;
