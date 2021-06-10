@@ -19,7 +19,7 @@ class SettingController extends Controller
           'success_url' => $request->getSchemeAndHttpHost(). '/matchings',
           'cancel_url' => $request->getSchemeAndHttpHost(). '/setting',
           'payment_method_types' => ['card'],
-          'client_reference_id' => $user->id,
+          'client_reference_id' => Auth::id(),
           'line_items' => [
             [
               'price' => 'price_1J0NFbH7v2PEnTHMZq14Ir2e',
