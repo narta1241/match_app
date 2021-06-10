@@ -42,6 +42,17 @@ class Favorite extends Model
         if ($withdrawUserIds) {
             $favorittingModel->wherenotin('user_id', $withdrawUserIds);
         }
+        
+         //ブロックユーザーを含めない
+        $blocked = Block::where('blocked_user_id', $user_id)->pluck('blocking_user_id');
+        $blocking = Block::where('blocking_user_id', $user_id)->pluck('blocked_user_id');
+        if($blocked){
+            $favorittingModel = $favorittingModel->wherenotin ('id', $blocked);
+        }   
+            
+        if($blocking){
+            $favorittingModel = $favorittingModel->wherenotin ('id', $blocking);
+        }   
         return $favorittingModel->get();
     }
       /**
@@ -58,6 +69,17 @@ class Favorite extends Model
         if ($withdrawUserIds) {
             $favoritedModel->wherenotin('profile_id', $withdrawUserIds);
         }
+        
+          //ブロックユーザーを含めない
+        $blocked = Block::where('blocked_user_id', $user_id)->pluck('blocking_user_id');
+        $blocking = Block::where('blocking_user_id', $user_id)->pluck('blocked_user_id');
+        if($blocked){
+            $favoritedModel = $favoritedModel->wherenotin ('id', $blocked);
+        }   
+            
+        if($blocking){
+            $favoritedModel = $favoritedgModel->wherenotin ('id', $blocking);
+        }   
         
         return $favoritedModel->get();
     }

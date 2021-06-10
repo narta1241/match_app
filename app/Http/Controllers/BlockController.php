@@ -97,7 +97,7 @@ class BlockController extends Controller
      */
     public function destroy(Block $block, Request $request)
     {
-        $blocked_user = Block::where('blocked_user_id', $request->blocked_user_id)->first();
+        $blocked_user = Block::where('blocked_user_id', $request->blocked_user_id)->where('blocking_user_id', Auth::id())->first();
         $blocked_user->delete();
         
         return redirect()->route('blocks.index');

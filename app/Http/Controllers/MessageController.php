@@ -43,7 +43,7 @@ class MessageController extends Controller
         
         $profile = Profile::where('user_id', $recieve_id)->first();
         $billing = User::where('id', Auth::id())->value('billing');
-        // dd($billing);
+        // dd($messages);
         return view('messages.index', compact('param', 'messages', 'profile', 'matchingId', 'billing'));
     }
 

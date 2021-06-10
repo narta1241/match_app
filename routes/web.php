@@ -37,7 +37,7 @@ Route::post('/pay', 'PaymentController@pay');
 Route::get('/payout', 'PaymentController@payout')->name('payout');
 Route::get('/setting', 'SettingController@setting')->name('setting');
 Route::get('/blocks', 'BlockController@index')->name('blocks.index');
-Route::post("blocks", 'BlockController@store')->name('favorites.store');
+Route::post("blocks", 'BlockController@store')->name('blocks.store');
 Route::delete('/blocks/{id}', 'BlockController@destroy')->name('blocks.destroy');
 
 Route::group(['prefix' => '/pusher'], function () {

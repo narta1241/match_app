@@ -49,9 +49,7 @@ class Profile extends Model
     }
     public static function getmatchList($data, $user_id)
     {
-        $blocked = Block::where('blocked_user_id', $user_id)->pluck('blocking_user_id');
-        $blocking = Block::where('blocking_user_id', $user_id)->pluck('blocked_user_id');
-        $hobby = "";
+        //異性を表示
         $gender = Profile::where('user_id', $user_id)->value('sex');
         
         if($gender == 0)
@@ -60,11 +58,25 @@ class Profile extends Model
         }else{
             $gender = 0;
         }
+        $matchList = Profile::where ('sex', $gender);
         
+        //退会者を組めない
         $deleted_user_id = User::wherenotnull('deleted_at')->pluck('id');
+        if($deleted_user_id){
+            $matchList->wherenotin ('id', $deleted_user_id);
+        }
+        //ブロックユーザーを含めない
+        $blocked = Block::where('blocked_user_id', $user_id)->pluck('blocking_user_id');
+        $blocking = Block::where('blocking_user_id', $user_id)->pluck('blocked_user_id');
+        if($blocked){
+            $matchList = $matchList->wherenotin ('id', $blocked);
+        }   
             
-        $matchList = Profile::where ('sex', $gender)->wherenotin ('id', $blocking)->wherenotin ('id', $deleted_user_id);
-            
+        if($blocking){
+            $matchList = $matchList->wherenotin ('id', $blocking);
+        }   
+        
+        //検索していれば    
         if($data){
             if(!empty($data['hobby'])){
                 foreach($data['hobby'] as $hobby){

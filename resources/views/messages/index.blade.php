@@ -22,20 +22,25 @@
                         <h3>{{$message->text}}</h3>
                     </div>
                 @endif
-     
-                {{--   受信したメッセージ  --}}
-                @if($message->receive_user_id == \Illuminate\Support\Facades\Auth::id())
-                    @if($billing == 1)
-                    <div class="receive_user_id" style="text-align: left">
-                        <h3>{{$message->text}}</h3>
+                <div class="received_msg">
+                    <div class="received_withd_msg">
+                        {{--   受信したメッセージ  --}}
+                        @if($message->receive_user_id == \Illuminate\Support\Facades\Auth::id())
+                            @if($billing == 1)
+                            <div class="receive_user_id" style="text-align: left">
+                                <!--<span class="time_date"> {{$message->created_at}} AM    |    Today</span>-->
+                                <h3>{{$message->text}}</h3>
+                            </div>
+                            @else
+                            <div class="receive_user_id blur" style="text-align: left">
+                                <span class="time_date"> 11:01 AM    |    Today</span>
+                                <h3>{{ substr(bin2hex(random_bytes(strlen($message->text))), 0,strlen($message->text)) }}</h3>
+                            </div>
+                            @endif
+                            
+                        @endif
                     </div>
-                    @else
-                    <div class="receive_user_id blur" style="text-align: left">
-                        <h3>{{ substr(bin2hex(random_bytes(strlen($message->text))), 0,strlen($message->text)) }}</h3>
-                    </div>
-                    @endif
-                    
-                @endif
+                </div>
             @endforeach
         </div>
     
@@ -62,28 +67,13 @@
                 <input type="hidden" id="login" name="login" value="{{\Illuminate\Support\Facades\Auth::id()}}">
  
     </div>
-  <!--  <button type="button" onclick="sendPushNotification()">クリックして下さい</button>-->
-　　<!--<script type="text/javascript">-->
-　　<!--　function sendPushNotification() {-->
-　　<!--　　Push.create('こんにちは！', {-->
-　　<!--　　　body: '更新をお知らせします！',-->
-　　<!--　　　timeout: 5000,-->
-　　<!--　　　onClick: function () {-->
-　　<!--　　　　this.close();-->
-　　<!--　　　　location.href = 'https://www.yahoo.co.jp';-->
-　　<!--　　　}-->
-　　<!--　　});-->
-　　<!--　    console.log('こんにちは');-->
-　　<!--　}-->
-　　<!--</script>-->
+ 
 </div>
 @endsection
 
 
 @section('javascript')
-    <script type="text/javascript">
-        Push.create('Push 通知だよ！');
-    </script>
+   
     <script type="text/javascript">
   
      $(function () {
@@ -131,14 +121,15 @@
        });
        
        //購読するチャンネルを指定
-       var pusherChannel = pusher.subscribe('chat');
+       var pusherChannel = pusher.subscribe("chat");
         
        //イベントを受信したら、下記処理
        pusherChannel.bind('chat_event', function(data) {
+           console.log(data);
  
             let appendText;
             let login = $('input[name="login"]').val();
-            let billing = '{{ $billing }}';
+            let billing = "{{ $billing }}";
            console.log(billing);
            if(data.user_id === login){
                appendText = '<div class="user_id" style="text-align:right"><h3>' + data.text + '</h3></div> ';
