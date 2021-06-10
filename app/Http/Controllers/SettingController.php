@@ -10,7 +10,7 @@ class SettingController extends Controller
 {
     public function setting(Request $request)
     {
-        $user = User::where('id', Auth::id())->first();
+        $user = Auth::user();
         
         $stripe = new \Stripe\StripeClient(
           env('STRIPE_SECRET'),
@@ -19,6 +19,7 @@ class SettingController extends Controller
           'success_url' => $request->getSchemeAndHttpHost(). '/matchings',
           'cancel_url' => $request->getSchemeAndHttpHost(). '/setting',
           'payment_method_types' => ['card'],
+          'client_reference_id' => $user->id,
           'line_items' => [
             [
               'price' => 'price_1J0NFbH7v2PEnTHMZq14Ir2e',
