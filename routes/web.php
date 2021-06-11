@@ -53,3 +53,5 @@ Route::group(['middleware' => ['auth', 'web']], function () {
     Route::get('/user/password/edit', 'UserController@editPassword')->name('user.password.edit');
     Route::post('/user/password/', 'UserController@updatePassword')->name('user.password.update');
 });
+
+Route::post('/stripe/webhook', 'StripeWebhookController@handleWebhook')->name('cashier.webhook');
