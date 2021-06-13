@@ -68,12 +68,15 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
+        // 現在日時
+        $today = new \DateTime();
         //リクエストパラメータ取得
         $insertParam = [
             'room_id' => $request->input('room_id'),
             'user_id' => $request->input('user_id'),
             'receive_user_id' => $request->input('receive_user_id'),
             'text' => $request->input('text'),
+            'created_at' => $today,
         ];
 
         // メッセージデータ保存

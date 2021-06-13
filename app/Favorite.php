@@ -44,8 +44,8 @@ class Favorite extends Model
         }
         
          //ブロックユーザーを含めない
-        $blocked = Block::where('blocked_user_id', $user_id)->pluck('blocking_user_id');
-        $blocking = Block::where('blocking_user_id', $user_id)->pluck('blocked_user_id');
+        $blocked = Block::where('blocked_user_id', $loginUserId)->pluck('blocking_user_id');
+        $blocking = Block::where('blocking_user_id', $loginUserId)->pluck('blocked_user_id');
         if($blocked){
             $favorittingModel = $favorittingModel->wherenotin ('id', $blocked);
         }   

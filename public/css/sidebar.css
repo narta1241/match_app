@@ -12,12 +12,7 @@
   /*height:100px;*/
   width:100%;
 }
-#btn_send{
-  position:absolute; 
-  /*top:10px; */
-  right:0px;
-  padding: 3px;
-}
+
 .blur{
   -ms-filter: blur(6px);
   filter: blur(6px);
@@ -157,17 +152,52 @@ li {
   color: #fff;
   font-size: 20px;
 }
+/*mesage*/
+.sent_msg {
+    overflow: hidden;
+    margin: 10px 0 10px;
+}
+.sent_withd_msgM {
+    float: right;
+    width: 46%;
+}
+.sent_withd_msgM h3 {
+    background: rgba(0,123,255,.5) none repeat scroll 0 0;
+    border-radius: 3px;
+    font-size: 14px;
+    margin: 0;
+    color: #333;
+    padding: 5px 10px 5px 22px;
+    width: 100%;
+	border-bottom-right-radius: 50px;
+    border-top-left-radius: 50px;
+}
+.sent_withd_msgW {
+    float: right;
+    width: 46%;
+}
+.sent_withd_msgW h3 {
+    background: rgba(255, 99, 71,.5) none repeat scroll 0 0;
+    border-radius: 3px;
+    font-size: 14px;
+    margin: 0;
+    color: #333;
+    padding: 5px 10px 5px 22px;
+    width: 100%;
+	border-bottom-right-radius: 50px;
+    border-top-left-radius: 50px;
+}
 .received_msg {
     display: inline-block;
     padding: 0 0 0 10px;
     vertical-align: top;
     width: 92%;
 }
-.received_withd_msg {
+.received_withd_msgM {
     width: 57%;
 }
-.received_withd_msg h3 {
-       background: rgba(0,123,255,.5) none repeat scroll 0 0;
+.received_withd_msgM h3 {
+    background: rgba(0,123,255,.5) none repeat scroll 0 0;
     border-radius: 3px;
     color: #ffffff;
     font-size: 14px;
@@ -176,4 +206,74 @@ li {
     width: 100%;
     border-bottom-right-radius: 50px;
     border-top-left-radius: 50px;
+}
+.received_withd_msgW {
+    width: 57%;
+}
+.received_withd_msgW h3 {
+    background: rgba(255, 99, 71,.5) none repeat scroll 0 0;
+    border-radius: 3px;
+    color: #ffffff;
+    font-size: 14px;
+    margin: 0;
+    padding: 5px 10px 5px 22px;
+    width: 100%;
+    border-bottom-right-radius: 50px;
+    border-top-left-radius: 50px;
+}
+.send-message {
+    padding: 15px;
+    background: #007bff;
+    height: auto;
+    border-radius: 50px;
+}
+.send-message textarea:focus {
+    box-shadow: none;
+    outline: none;
+	border-color:#ddd;
+}
+.send-message ul li {
+    display: -webkit-inline-box;
+    padding-left: 25px;
+}
+.send-message ul li i{color:#0056b3;}
+.send-message ul li button{
+  position: absolute;
+  left: 5px;
+  bottom: -7px;
+  outline: none;
+  border: none;
+  appearance: none;
+  background-color: transparent;
+  padding: 2px;
+  width: 30px;
+  height: 30px;
+}
+.send-message ul {
+    position: absolute;
+    right: 50px;
+    bottom: 10px;
+    border-left: 1px solid #9c9a9a;
+}
+.send-message .form-control {
+    border-radius: 50px;
+}
+/*画像を丸く*/
+.navbar-brand img{
+  border-radius: 1px;
+}
+img {
+    border-radius: 50%;  /* 角丸半径を50%にする(=円形にする) */
+    width:  180px;       /* ※縦横を同値に */
+    height: 180px;       /* ※縦横を同値に */
+}
+.inline-block_test {
+    display: inline-block;        /* インラインブロック要素にする */
+    background-color:  #ccc;      /* 背景色指定 */
+    height:  300px;             /* 高さ指定 */
+    width: 50%;                 /* 幅指定 */
+}
+/*プロフィールリスト*/
+.list{
+  display: flex;
 }

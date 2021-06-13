@@ -16,24 +16,36 @@
         
         <div id="room">
             @foreach($messages as $key => $message)
-                {{--   送信したメッセージ  --}}
-                @if($message->user_id == \Illuminate\Support\Facades\Auth::id())
-                    <div class="user_id" style="text-align: right">
-                        <h3>{{$message->text}}</h3>
+                <div class="sent_msg">
+                    @if($profile->sex == 1)
+                    <div class="sent_withd_msgM">
+                    @else
+                    <div class="sent_withd_msgW">
+                    @endif
+                    {{--   送信したメッセージ  --}}
+                    @if($message->user_id == \Illuminate\Support\Facades\Auth::id())
+                        <div class="user_id" style="text-align: right">
+                            <h3>{{$message->text}}</h3>
+                        </div>
+                    @endif
                     </div>
-                @endif
+                </div>
                 <div class="received_msg">
-                    <div class="received_withd_msg">
+                    @if($profile->sex == 0)
+                    <div class="received_withd_msgM">
+                    @else
+                    <div class="received_withd_msgW">
+                    @endif
                         {{--   受信したメッセージ  --}}
                         @if($message->receive_user_id == \Illuminate\Support\Facades\Auth::id())
                             @if($billing == 1)
                             <div class="receive_user_id" style="text-align: left">
-                                <!--<span class="time_date"> {{$message->created_at}} AM    |    Today</span>-->
+                                
                                 <h3>{{$message->text}}</h3>
                             </div>
                             @else
                             <div class="receive_user_id blur" style="text-align: left">
-                                <span class="time_date"> 11:01 AM    |    Today</span>
+                                
                                 <h3>{{ substr(bin2hex(random_bytes(strlen($message->text))), 0,strlen($message->text)) }}</h3>
                             </div>
                             @endif
@@ -43,17 +55,16 @@
                 </div>
             @endforeach
         </div>
-    
-            <!--<form method="POST" action="/messages/">-->
+        <div>
             @if($billing == 1)
-            <form>
-                <div>
-                    <textarea id="text" name="text" style="width:100%"></textarea>
-                    <div>
-                        <button type="button" id="btn_send">送信</button>
-                    </div>
-                </div>
-            </form>
+			<div class="send-message">
+			  <form action="" method="">
+			   <textarea  id="text" name="text" cols="10" rows="1" class="form-control" placeholder="メッセージを入力"> </textarea>
+			    <ul class="list-inline"> 
+				  <li> <button type="button" id="btn_send" ><i class="fas fa-paper-plane"></i></button> </li>
+				</ul>
+			  </form>
+			</div>
             @else
                 <span class="user_id text-danger rounded-lg" style="font-size:24px;background-color:skyblue;">
                    ※有料会員のみメッセージの送受信が可能です※
@@ -64,8 +75,9 @@
                 <input type="hidden" id="room_id" name="room_id" value="{{ $matchingId }}">
                 <input type="hidden" id="user_id" name="user_id" value="{{ $param['send'] }}">
                 <input type="hidden" id="receive_user_id" name="receive_user_id" value="{{$param['recieve']}}">
-                <input type="hidden" id="login" name="login" value="{{\Illuminate\Support\Facades\Auth::id()}}">
  
+                <input type="hidden" id="login" name="login" value="{{\Illuminate\Support\Facades\Auth::id()}}">
+        </div>
     </div>
  
 </div>
@@ -130,19 +142,30 @@
             let appendText;
             let login = $('input[name="login"]').val();
             let billing = "{{ $billing }}";
+            let sex = "{{ $profile->sex }}";
            console.log(billing);
            if(data.user_id === login){
-               appendText = '<div class="user_id" style="text-align:right"><h3>' + data.text + '</h3></div> ';
+               if(sex== 1){
+                    appendText ='<div class="sent_msg"><div class="sent_withd_msgM">';
+                }else{
+                    appendText ='<div class="sent_msg"><div class="sent_withd_msgW">';
+                }
+               appendText += '<div class="user_id" style="text-align:right"><h3>' + data.text + '</h3></div> ';
            }else if(data.receive_user_id === login){
-                if(billing== 1){
-                    appendText = '<div class="receive_user_id" style="text-align:left"><h3>' + data.text + '</h3></div> ';
+                if(sex== 0){
+                    appendText ='<div class="received_msg"><div class="received_withd_msgM">';
+                }else{
+                    appendText ='<div class="received_msg"><div class="received_withd_msgW">';
                 }
-                else{
-                    let length = data.text.length;
-                    let faketext = Math.random().toString(36).slice(length);
-                    console.log(faketext);
-                    appendText = '<div class="receive_user_id blur" style="text-align:left"><h3>' + faketext + '</h3></div> ';
-                }
+                    if(billing== 1){
+                        appendText += '<div class="receive_user_id" style="text-align:left"><h3>' + data.text + '</h3></div> ';
+                    }
+                    else{
+                        let length = data.text.length;
+                        let faketext = Math.random().toString(36).slice(length);
+                        console.log(faketext);
+                        appendText += '<div class="receive_user_id blur" style="text-align:left"><h3>' + faketext + '</h3></div> ';
+                    }
            }else{
                return false;
            }

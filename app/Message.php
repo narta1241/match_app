@@ -13,4 +13,5 @@ class Message extends Model
         return $this->hasMany('App\Matching');
     }
     
+    
 }

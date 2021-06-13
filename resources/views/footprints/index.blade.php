@@ -25,4 +25,8 @@
                 @endif
             </div>
         </div>
+        <div class="inline-block_test">
+            1234567890
+            高さや幅を指定できます
+        </div>
 @endsection
