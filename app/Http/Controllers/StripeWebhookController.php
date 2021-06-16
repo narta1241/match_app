@@ -10,15 +10,19 @@ class StripeWebhookController extends CashierController
     public function handleCheckoutSessionCompleted(array $payload)
     {
         $session = $payload['data']['object'];
-        $user = User::findOrFail($session['client_reference_id']);
+        $user = User::find((int) $session['client_reference_id']);
+        
+        \Log::debug('ユーザー', $user->stripe_id);
 
-        $user->update(['stripe_id' => $session['customer']]);
+        DB::transaction(function () use ($session, $user) {
+            $user->update(['stripe_id' => $session['customer']]);
 
-        $user->subscriptions()->create([
-            'name'          => 'default',
-            'stripe_id'     => $session['subscription'],
-            'stripe_status' => 'active' // Or use "active" if you don't provide a trial
-        ]);
+            $user->subscriptions()->create([
+                'name'          => 'default',
+                'stripe_id'     => $session['subscription'],
+                'stripe_status' => 'active' // Or use "active" if you don't provide a trial
+            ]);
+        });
 
         return $this->successMethod();
     }
