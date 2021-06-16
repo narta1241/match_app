@@ -12,6 +12,7 @@ class StripeWebhookController extends CashierController
         $session = $payload['data']['object'];
         $user = User::find((int) $session['client_reference_id']);
         
+        \Log::debug('Session', $session);
         \Log::debug('ユーザー', ['user_id' => $user->id, 'stripe_id' => $user->stripe_id]);
 
         DB::transaction(function () use ($session, $user) {
