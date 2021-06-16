@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use Laravel\Cashier\Http\Controllers\WebhookController as CashierController;
+use App\User;
 
 class StripeWebhookController extends CashierController
 {
