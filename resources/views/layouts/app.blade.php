@@ -46,11 +46,6 @@
                         @include('layouts.partials.sidebar', ['id' => Auth::id()])
                     </div>
                     <div class="col-md-10">
-                        @if (session('flash_message'))
-                            <div class="flash_message">
-                                {{ session('flash_message') }}
-                            </div>
-                        @endif
                         
                         <!-- フラッシュメッセージ -->
                         @if (session('flash_message'))

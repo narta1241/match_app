@@ -35,7 +35,7 @@ class PaymentController extends Controller
                 ],
               ],
            ]);
-            dd($subscription);
+            // dd($subscription);
             $sub_id = $subscription->id;
            Payment::create([
                 'stripe_id' => $sub_id,
