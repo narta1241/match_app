@@ -199,17 +199,10 @@ class ProfileController extends Controller
     public function withdrawal($id)
     {
         $user =Auth::user();
-        
-        dd($user);
         // 有料会員のキャンセル
         \Stripe\Stripe::setApiKey('sk_test_51IieGhE9LwkIsOfen0F6eSO2VSmA6A2XNXQrujly8EhAQu2HmXgZNVurgO1KzjQKHKuyWbcQhEkuAkfbKp411bJ400CEHBVpgP');
 
-        \Stripe\Subscription::update(
-          'sub_49ty4767H20z6a',
-          [
-            'cancel_at_period_end' => true,
-          ]
-        );
+        $user->subscription('main')->cancel();
         
         $today = date('Y-m-d');
         
