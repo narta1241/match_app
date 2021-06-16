@@ -1,6 +1,6 @@
 .nav{
     display: block;
-    font-size: 12px;
+    font-size: 16px;
 }
 #clear {
   display: none;
@@ -267,13 +267,56 @@ img {
     width:  180px;       /* ※縦横を同値に */
     height: 180px;       /* ※縦横を同値に */
 }
-.inline-block_test {
-    display: inline-block;        /* インラインブロック要素にする */
-    background-color:  #ccc;      /* 背景色指定 */
-    height:  300px;             /* 高さ指定 */
-    width: 50%;                 /* 幅指定 */
-}
+
 /*プロフィールリスト*/
-.list{
+#list{
   display: flex;
+  flex-wrap: wrap;
+}
+/*いいね*/
+.changefav_btn{
+    display: block;
+    max-width: 400px;
+    
+    padding: 15px;
+    margin-bottom :4px;
+    border-radius: 30px;
+    background: #fd5068;
+    font-size: 1.5rem;
+   
+}
+/*マッチング主題*/
+.underlineMatch {
+    border-bottom:double;/*二重線を引く*/
+    border-color:#FF0000;
+    border-width:3px;
+    width: 160px;
+}
+.btn-chat{
+  background: #007bff;
+}
+/*足跡*/
+.underlineFoot{
+  border-bottom:double;/*二重線を引く*/
+    border-color:#FF0000;
+    border-width:3px;
+    width: 260px;
+}
+/*プロフ編集*/
+.prof{
+  font-size: 15px;
+}
+#sex_female{
+  margin-left: 20px;  
+}
+label{
+  white-space: nowrap;
+}
+.registration{
+  display: block;
+  max-width: 400px;
+
+  margin: 0 auto;
+  border-radius: 30px;
+  font-size: 20px;
 }

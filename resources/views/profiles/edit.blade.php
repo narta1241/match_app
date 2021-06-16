@@ -2,92 +2,140 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+    <div class="row justify-content-center prof">
+        <div class="col-md-10">
             <div class="card">
                 <div class="card-header">{{ __('プロフィール編集') }}</div>
                     <div class="card-body">
                         <form method="POST" action="/profiles/{{ $profile->id }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
-                        <div class="form-group">
-                            <label for="name" class="col-form-label">名前</label>
-                            <input type="text" id="name" name="name" class="form-control" value={{$profile->name}}>
-                        </div>
-                        <div>
-                            <div>
-                                <label for="image" class="col-form-label">{{ __('画像') }}</label>
-                                <input type="file" id="myImage" name="image" accept="image/png, image/jpeg">
-                                
-                                <label for="preview" class="col-form-label">{{ __(' プレビュー ') }}</label>
-                                <img id="preview" style="width: 30%; height: 30%;">
+                        <div class="row form-group">
+                            <div class="col-md-4 text-center">
+                              <label for="name" class="col-form-label">名前：</label>
                             </div>
-                            <label for="image" class="col-form-label">{{ __('現在登録画像') }}</label>
-                            
-                            <img id="previewImage" src="data:image/png;base64,{{$profile->image}}" alt="image" style="width: 30%; height: 30%;"/>
-                            
-                       <!--     <form method="POST" action="" accept-charset="UTF-8" id="admin-blog-form" class="form-horizontal" enctype="multipart/form-data">-->
-                       <!--         @csrf-->
-                    			<!-- ここにプレビューボタンを追記 -->
-                    			<!--<input id="admin-blog-preview-btn" class="btn btn-warning" type="submit" value="プレビュー">-->
-                       <!--     </form>-->
+                            <div class="col-md-8">
+                                <input type="text" id="name" name="name" value={{ $profile->name }}>
+                                @if ($errors->first('name')) 
+                                    <p class="validation text-danger">※{{$errors->first('name')}}</p>
+                                @endif
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="row form-group">
+                                <div class="col-md-4 text-center">
+                                    <label for="image" class="col-form-label">{{ __('画像：') }}</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="file" id="myImage" name="image" accept="image/png, image/jpeg">
+                                </div>
+                            </div>
+                            <div class="mb-4 text-center">
+                                <label for="preview" class="col-form-label">{{ __(' プレビュー：') }}</label>
+                                <img id="preview" style="width: 30%; height: 30%;">
+                                <label for="image" class="col-form-label">{{ __('現在登録画像：') }}</label>
+                                <img id="previewImage" src="data:image/png;base64,{{$profile->image}}" alt="image" style="width: 30%; height: 30%;"/>
+                            </div>   
                         </div>
                         
                         
-                        <div class="form-group">
-                            <label for="introduction" class="col-form-label">自己紹介</label>
-                            <input type="text" id="introduction" name="introduction" class="form-control" value={{ $profile->introduction }}>
+                        <div class="row form-group">
+                            <div class="col-md-4 text-center">
+                                <label for="introduction" class="col-form-label">自己紹介：</label>
+                            </div>
+                            <div class="col-md-8">
+                                <textarea id="introduction" name="introduction" rows="3" cols="70">{{ $profile->introduction }}</textarea>
+                                @if ($errors->first('introduction')) 
+                                    <p class="validation text-danger">※{{$errors->first('introduction')}}</p>
+                                @endif
+                            </div>
                         </div>
                        
-                        <div class="form-group">
-                    		<label>性別</label>
-                    		<label for="sex_male"><input id="sex_male" type="radio" name="sex" value="0" <?php if( $profile->sex == '0' ){ echo 'checked'; } ?>>男性</label>
-                    		<label for="sex_female"><input id="sex_female" type="radio" name="sex" value="1" <?php if( $profile->sex == '1' ){ echo 'checked'; } ?>>女性</label>
+                        <div class="row form-group">
+                            <div class="col-md-4 text-center">
+                    		    <label class="col-form-label">性別：</label>
+                    		</div>
+                    		<div class="col-md-8">
+                        		<label for="sex_male"><input id="sex_male" type="radio" name="sex" value="0" <?php if( $profile->sex == '0' ){ echo 'checked'; } ?>>男性</label>
+                        		<label for="sex_female"><input id="sex_female" type="radio" name="sex" value="1" <?php if( $profile->sex == '1' ){ echo 'checked'; } ?>>女性</label>
+                    		</div>
                     	</div>
-                    	<div class="form-group">
-                    		<label>誕生日</label>
-                    		{{ Form::select('year', config('year'), $y, ['class' => 'form-control']) }}
-                            
-                    		{{ Form::select('month', config('month'), $m, ['class' => 'form-control']) }}
-                            
-                    		{{ Form::select('day', config('day'), $d, ['class' => 'form-control']) }}
-                            
+                    	<div class="row form-group">
+                            <div class="col-md-4 text-center">
+                    		    <label>誕生日：</label>
+                    		</div>
+                    		<div class="col-md-8">
+                    	    	{{ Form::select('year', config('year'), $y, ['class' => 'form-control', 'style' => "width:50%;"]) }}
+                    		</div>
+                    	    <div class="col-md-4 text-center"></div>
+                            <div class="col-md-8">
+                    		    {{ Form::select('month', config('month'), $m, ['class' => 'form-control', 'style' => "width:50%;"]) }}
+                    		</div>
+                            <div class="col-md-4 text-center"></div>
+                            <div class="col-md-8 mt-2">
+                    		    {{ Form::select('day', config('day'), $d, ['class' => 'form-control', 'style' => "width:50%;"]) }}
+                            </div>
                     	</div>
-                    	<div class="">
-                    	    <label>居住地</label>
-                                <select type="text" class="form-control @error('residence') is-invalid @enderror" name="residence" required autocomplete="residence">
+                        <div class="row form-group">
+                            <div class="col-md-4 text-center">
+                    	        <label>居住地：</label>
+                    	    </div>
+                    	    <div class="col-md-8">
+                                <select type="text" class="form-control @error('residence') is-invalid @enderror" name="residence" required autocomplete="residence" style="width:50%;">
                                      <option value="{{ $profile->residence }}" selected>{{ $profile->residence }}</option> 
                                     @foreach(config('pref') as $key => $score)
                                      <option value="{{ $score }}">{{ $score }}</option> 
                                     @endforeach
                                 </select>
+                            </div>
                         </div>
-                         <div class="form-group">
-                            <label for="hobby" class="col-form-label">趣味</label>
-                            @foreach(config('hobby') as $key => $hobby)
-                                @if($hob->CONTAINS($hobby))
-                                    <input type="checkbox" name="hobby[]" value={{ $hobby }} checked>{{ $hobby }}
-                                @else
-                                    <input type="checkbox" name="hobby[]" value={{ $hobby }}>{{ $hobby }}
-                                @endif
-                            @endforeach
-                        </div>
-                         <div class="form-group">
-                            <label for="height" class="col-form-label">身長</label>
-                            <input type="text" id="height" name="height" class="form-control" value={{ $profile->height }}>
-                        </div>
-                        <div class="form-group">
-                            <label for="weight" class="col-form-label">体型</label>
-                            <select type="text" class="form-control" name="weight" required autocomplete="weight">
-                                 <option value="{{ $profile->weight }}" selected="selected">{{ $profile->weight }}</option> 
-                                @foreach(config('weight') as $key => $score)
-                                 <option value="{{ $score }}">{{ $score }}</option> 
+                         <div class="row form-group">
+                            <div class="col-md-4 text-center">
+                                <label for="hobby" class="col-form-label">趣味：</label>
+                            </div>
+                            <div class="col-md-8">
+                                @foreach(config('hobby') as $key => $hobby)
+                                    <label>
+                                        @if($hob->CONTAINS($hobby))
+                                            <input type="checkbox" name="hobby[]" value={{ $hobby }} checked>{{ $hobby }}
+                                        @else
+                                            <input type="checkbox" name="hobby[]" value={{ $hobby }}>{{ $hobby }}
+                                        @endif
+                                    </label>
                                 @endforeach
-                            </select>
+                                @if ($errors->first('hobby')) 
+                                    <p class="validation text-danger">※{{$errors->first('hobby')}}</p>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-4 text-center">
+                                <label for="height" class="col-form-label">身長：</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="number" id="height" name="height" class="form-control" max=210 min=140 value="{{ $profile->height }}" style="width:50%;">
+                                @if ($errors->first('height')) 
+                                    <p class="validation text-danger">※{{$errors->first('height')}}</p>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-4 text-center">
+                                <label for="weight" class="col-form-label">体型：</label>
+                            </div>
+                            <div class="col-md-8">
+                                <select type="text" class="form-control" name="weight" required autocomplete="weight" style="width:50%;">
+                                     <option value="{{ $profile->weight }}" selected="selected">{{ $profile->weight }}</option> 
+                                    @foreach(config('weight') as $key => $score)
+                                     <option value="{{ $score }}">{{ $score }}</option> 
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                             <div>
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-primary registration">
                                         {{ __('登録') }}
                                     </button>
                                 </div>

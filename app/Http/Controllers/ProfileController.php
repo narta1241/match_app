@@ -44,6 +44,18 @@ class ProfileController extends Controller
     public function store(Request $request)
     {
         // dd($request);
+        $request->validate([       // <-- ここがバリデーション部分
+            'name' => "required|max:15",
+            'image' => "required",
+            'introduction' => 'required|max:500',
+            'sex' => 'required',
+            'year' => 'required',
+            'month' => 'required',
+            'day' => 'required',
+            'hobby' => 'required',
+            'height' => 'required|numeric',
+        ]);
+        dd($request);
         $birthday = $request->input('year'). $request->input('month'). $request->input('day');
         // $request->validate([       // <-- ここがバリデーション部分
         //     'title' => "required|unique:series,title,$request->title",
@@ -53,15 +65,12 @@ class ProfileController extends Controller
         $upload_image = $request->file('image');
 	    
 		if($upload_image) {
-			//アップロードされた画像を保存する
-			$path = $upload_image->store('uploads',"public");
-        // dd($path);
+	
 			//画像の保存に成功したらDBに記録する
-			if($path){
                 Profile::create([
                     'name' => $request->input('name'),
                     'image' => base64_encode(file_get_contents($upload_image->getRealPath())),
-                    "image_path" => $path,
+                    "image_path" => "",
                     'introduction' => $request->input('introduction'),
                     'age' => floor(($now-$birthday)/10000),
                     'sex' => $request->input('sex'),
@@ -79,7 +88,6 @@ class ProfileController extends Controller
                     // $hobby->genre = "";
                     $hobby->save();
                 }
-			}
 		}
         
         return redirect()->route('profiles.index');
@@ -133,7 +141,12 @@ class ProfileController extends Controller
         $birthday = $request->input('year'). $request->input('month'). $request->input('day');
         // dd($birthday);
         $now = date("Ymd");
-        
+        $request->validate([       // <-- ここがバリデーション部分
+            'name' => "required|max:15",
+            'introduction' => 'required|max:500',
+            'hobby' => 'required',
+            'height' => 'required|numeric',
+        ]);
         if($request->file('image')){
             $upload_image = $request->file('image');
             // dd($upload_image);
@@ -154,23 +167,19 @@ class ProfileController extends Controller
             $profile->user_id = Auth::id();
             $profile->height = $request->input('height');
             $profile->weight = $request->input('weight');
-			$hobbies = Hobby::where('profile_id', Auth::id())->get();
-		
             $choice = $request->input('hobby');
-            // dd($choice);
-            foreach ($hobbies as $hobby) {
-                foreach ($choice as $hob) {
-                    // dump($hobby->hobby);
-                    // dump($hob);
-                    // dump($hob == $hobby->hobby);
-                    if(!($hob == $hobby->hobby)){
-                        $hobby = new hobby();
-                        $hobby->profile_id = Auth::id();
-                        $hobby->hobby = $hob;
-                        // $hobby->genre = "";
-                    }
+			$hobbies = Hobby::where('profile_id', Auth::id())->get();
+		  //  dump($hobbies);
+            foreach ($choice as $hob) {
+                $hobby = $hobbies->where('hobby', $hob)->first();
+                if(!$hobby){
+                    $hobby = new hobby();
+                    $hobby->profile_id = Auth::id();
+                    $hobby->hobby = $hob;
+                    // $hobby->genre = "";
                 }
             }
+            // dd($hobby);
             $hobby->save();
             $profile->save();
        return redirect()->route('profiles.index');
