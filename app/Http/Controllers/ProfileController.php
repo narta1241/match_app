@@ -202,7 +202,7 @@ class ProfileController extends Controller
         // 有料会員のキャンセル
         \Stripe\Stripe::setApiKey('sk_test_51IieGhE9LwkIsOfen0F6eSO2VSmA6A2XNXQrujly8EhAQu2HmXgZNVurgO1KzjQKHKuyWbcQhEkuAkfbKp411bJ400CEHBVpgP');
 
-        $user->subscription('main')->cancel();
+        $user->subscription('default')->cancel();
         
         $today = date('Y-m-d');
         
