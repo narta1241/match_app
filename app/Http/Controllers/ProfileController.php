@@ -55,7 +55,7 @@ class ProfileController extends Controller
             'hobby' => 'required',
             'height' => 'required|numeric',
         ]);
-        dd($request);
+        // dd($request);
         $birthday = $request->input('year'). $request->input('month'). $request->input('day');
         // $request->validate([       // <-- ここがバリデーション部分
         //     'title' => "required|unique:series,title,$request->title",
