@@ -40,28 +40,4 @@
         </ul>
    <!--</div> -->
 </div>
- @section('script')
-          <!--  <form action="{{ asset('pay') }}" method="POST">-->
-          <!--  {{ csrf_field() }}-->
-          <!--  <script-->
-          <!--       src="https://checkout.stripe.com/checkout.js" -->
-          <!--       class="stripe-button text-center"-->
-          <!--       data-key="{{ env('STRIPE_PUBLIC_KEY') }}"-->
-          <!--       data-amount="500"-->
-          <!--       data-name="Stripe決済デモ"-->
-          <!--       data-label="決済をする"-->
-          <!--       data-description="これはデモ決済です"-->
-          <!--       data-image="https://stripe.com/img/documentation/checkout/marketplace.png"-->
-          <!--       data-locale="auto"-->
-          <!--       data-currency="JPY">-->
-          <!--  </script>-->
-          <!--</form>-->
-          
-        <script>
-            
-            // $('.stripe-button-el').attr('style', 'display: none;');
-            // $(document).on('click', '#payment-submit', function() {
-            //     $('.stripe-button-el').click()
-            // })
-        </script>
-        @endsection
+ 

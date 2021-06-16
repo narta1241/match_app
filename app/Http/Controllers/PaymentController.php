@@ -115,20 +115,24 @@ class PaymentController extends Controller
      }
     public function payout(Request $request){
         
-        $user_id = Payment::where('stripe_id', Auth::id())->first();
-        $user = User::find(Auth::id());
+        $user =Auth::user();
+        // 有料会員のキャンセル
+        \Stripe\Stripe::setApiKey('sk_test_51IieGhE9LwkIsOfen0F6eSO2VSmA6A2XNXQrujly8EhAQu2HmXgZNVurgO1KzjQKHKuyWbcQhEkuAkfbKp411bJ400CEHBVpgP');
+
+        $user->subscription('default')->cancel();
+        
         $user->update(['billing' => 0]);
-        $matchAddress = Payment::where('email',$user->email)->first();
-        // dd($matchAddress);
-        if($matchAddress){
-            $result = Payment::deleteCard($user_id);
-            $matchAddress->delete();
-            if($result){
-                return redirect('setting')->with('success', 'カード情報の削除が完了しました。');
-            }else{
-                return redirect('setting')->with('errors', 'カード情報の削除に失敗しました。恐れ入りますが、通信状況の良い場所で再度お試しいただくか、しばらく経ってから再度お試しください。');
-            }
-        }
+        // $matchAddress = Payment::where('email',$user->email)->first();
+        // // dd($matchAddress);
+        // if($matchAddress){
+        //     $result = Payment::deleteCard($user_id);
+        //     $matchAddress->delete();
+        //     if($result){
+        //         return redirect('setting')->with('success', 'カード情報の削除が完了しました。');
+        //     }else{
+        //         return redirect('setting')->with('errors', 'カード情報の削除に失敗しました。恐れ入りますが、通信状況の良い場所で再度お試しいただくか、しばらく経ってから再度お試しください。');
+        //     }
+        // }
         return back();
     }
 }

@@ -74,7 +74,7 @@ $(function(){
         $( "#modal-content" ).css( {"left": ((w - cw)/2) + "px","top": ((h - ch)/2) + "px"} ) ;
     }
     
-    let stripe = Stripe("{{ env('STRIPE_PUBLIC_KEY') }}");
+    let stripe = Stripe("{{ config('cashier.key') }}");
     
     $('#payment-checkout').click(function() {
         console.log('test')

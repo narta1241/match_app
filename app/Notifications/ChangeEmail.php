@@ -60,8 +60,8 @@ class ChangeEmail extends Notification
         // dd($notifiable);
         // $accountId = $notifiable->id;
         // $channel = config("channels.{$this->profile->channel}.title");
-        $mailAddress = getenv('MAIL_FROM_ADDRESS');
-        $apiKey = getenv('SENDGRID_API_KEY');
+        $mailAddress = config('mail.address');
+        $apiKey = config('services.sendgrid');
         
         return (new SendGridMailMessage)
             ->Subject('メールアドレス変更') // 件名

@@ -32,7 +32,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="glyphicon glyphicon-menu-right" style="color:black;" href="{{ route('profiles.withdrawal', Auth::user()->id) }}" onclick="if(confirm('本当に有料会員を辞めますか?')) { return true } else {return false };">
+                    <a class="glyphicon glyphicon-menu-right" style="color:black;" href="{{ route('profiles.withdrawal', Auth::user()->id) }}" onclick="if(confirm('本当に退会しますか?')) { return true } else {return false };">
                             {{ __('　退会する') }}
                     </a>
                 </li>

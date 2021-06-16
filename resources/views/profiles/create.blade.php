@@ -47,7 +47,7 @@
                                 <label for="introduction" class="col-form-label">{{ __(' 自己紹介：') }}</label>
                             </div>
                             <div class="col-md-8">
-                                <textarea id="introduction" name="introduction" rows="3" cols="50"></textarea>
+                                <textarea id="introduction" name="introduction" rows="3" style="width:100%"></textarea>
                                 @if ($errors->first('introduction')) 
                                     <p class="validation text-danger">※{{$errors->first('introduction')}}</p>
                                 @endif
