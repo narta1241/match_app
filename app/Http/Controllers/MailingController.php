@@ -15,11 +15,13 @@ class MailingController extends Controller
     public function sendMail($address, $text, $name)
     { 
         $email = new \SendGrid\Mail\Mail();
-        $mailAddress = getenv('MAIL_FROM_ADDRESS');
+        // $mailAddress = getenv('MAIL_FROM_ADDRESS');
+        $mailAddress = config('mail.address');
         $email->setFrom($mailAddress);
         $email->setSubject($name."さんからのメッセージ");
         $email->addTo($address);
-        $apiKey = getenv('SENDGRID_API_KEY');
+        // $apiKey = getenv('SENDGRID_API_KEY');
+        $apiKey = config('services.sendgrid');
         $sendGrid = new \SendGrid($apiKey);
         $email->addContent(
             "text/plain",
@@ -34,12 +36,13 @@ class MailingController extends Controller
     public function matchMail($address, $id)
     { 
         $email = new \SendGrid\Mail\Mail();
-        $mailAddress = getenv('MAIL_FROM_ADDRESS');
+        $mailAddress = config('mail.address');
+        // $mailAddress = getenv('MAIL_FROM_ADDRESS');
         $email->setFrom($mailAddress); 
         $user = User::where('id', $id)->first();
         $email->setSubject($user->name."さんとマッチングしました");
         $email->addTo($address);
-        $apiKey = getenv('SENDGRID_API_KEY');
+        $apiKey = config('services.sendgrid');
         $sendGrid = new \SendGrid($apiKey);
         $email->addContent(
             "text/plain",
@@ -54,11 +57,11 @@ class MailingController extends Controller
     public function favoriteMail($address, $name)
     {
         $email = new \SendGrid\Mail\Mail();
-        $mailAddress = getenv('MAIL_FROM_ADDRESS');
+        $mailAddress = config('mail.address');
         $email->setFrom($mailAddress);
         $email->setSubject($name."さんにいいねされました");
         $email->addTo($address);
-        $apiKey = getenv('SENDGRID_API_KEY');
+        $apiKey = config('services.sendgrid');
         $sendGrid = new \SendGrid($apiKey);
         $email->addContent(
             "text/plain",

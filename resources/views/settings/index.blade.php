@@ -19,22 +19,24 @@
                     {{ __('　ブロックしたユーザー') }}
                 </a>
             </li>
-            <li>
-                @if ($user->billing == 1)
+            @if ($user->billing == 1)
+                <li>
                     <a class="glyphicon glyphicon-menu-right" style="color:black;" href="{{ route('payout') }}" onclick="if(confirm('本当に有料会員を辞めますか?')) { return true } else {return false };">
                         {{ __('　有料会員を辞める') }}
                     </a>
+                </li>
                 @else
+                <li>
                     <a href="javascript:void(0)" style="color:black;" id="modal-open" class="glyphicon glyphicon-menu-right">
                         {{ __('　有料会員になる') }}
                     </a>
+                </li>
+                <li>
+                    <a class="glyphicon glyphicon-menu-right" style="color:black;" href="{{ route('profiles.withdrawal', Auth::user()->id) }}" onclick="if(confirm('本当に有料会員を辞めますか?')) { return true } else {return false };">
+                            {{ __('　退会する') }}
+                    </a>
+                </li>
                 @endif
-            </li>
-            <li>
-                <a class="glyphicon glyphicon-menu-right" style="color:black;" href="{{ route('profiles.withdrawal', Auth::user()->id) }}" onclick="if(confirm('本当に有料会員を辞めますか?')) { return true } else {return false };">
-                        {{ __('　退会する') }}
-                </a>
-            </li>
         </nav>
     </div>
 </div>

@@ -196,6 +196,7 @@ class ProfileController extends Controller
     {
        //
     }
+    
     public function withdrawal($id)
     {
         $user =Auth::user();

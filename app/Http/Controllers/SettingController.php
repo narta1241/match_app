@@ -13,7 +13,7 @@ class SettingController extends Controller
         $user = Auth::user();
         
         $stripe = new \Stripe\StripeClient(
-          env('STRIPE_SECRET'),
+          config('cashier.secret'),
         );
         $response = $stripe->checkout->sessions->create([
           'success_url' => $request->getSchemeAndHttpHost(). '/matchings',

@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-6 text-center">
             <div>
-                <img src="{{ Storage::url($profile->image_path) }}" alt="image" style="width: 25vw; height: auto;"/>
+                <img src="data:image/png;base64,{{$profile->image}}" alt="image" style="width: 25vw; height: auto;"/>
             </div>
             <div class="pt-4">
                 <h2>{{ $profile->name }}</h2>

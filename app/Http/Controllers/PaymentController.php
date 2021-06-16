@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 class PaymentController extends Controller
 {
    public function pay(Request $request){
-     Stripe::setApiKey(env('STRIPE_SECRET'));//シークレットキー
+     Stripe::setApiKey(config('cashier.secret'));//シークレットキー
     //   dd($request);
       $customer = \Stripe\Customer::create([
                 'payment_method' => $request->tokenstripeToken,

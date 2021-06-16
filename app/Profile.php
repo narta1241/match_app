@@ -94,9 +94,10 @@ class Profile extends Model
             }
             if($data['weight'] != "NULL"){
                 $matchList = $matchList-> where ('weight', $data['weight']);
-                // dump($matchList);
             }
         }
+        
+                // dd($matchList->get());
         return $matchList->get();
              
     }
