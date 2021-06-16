@@ -16,7 +16,9 @@ class StripeWebhookController extends CashierController
         \Log::debug('ユーザー', ['user_id' => $user->id, 'stripe_id' => $user->stripe_id]);
 
         DB::transaction(function () use ($session, $user) {
+            \Log::debug('Session Stripe ID', $session['customer']);
             $user->update(['stripe_id' => $session['customer']]);
+            \Log::debug('ユーザー', ['user_id' => $user->id, 'stripe_id' => $user->stripe_id]);
 
             $user->subscriptions()->create([
                 'name'          => 'default',
