@@ -38,6 +38,7 @@
                 </li>
                 @endif
         </nav>
+        
     </div>
 </div>
 @endsection

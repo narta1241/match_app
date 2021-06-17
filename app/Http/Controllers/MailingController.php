@@ -16,7 +16,7 @@ class MailingController extends Controller
     { 
         $email = new \SendGrid\Mail\Mail();
         
-        $mailAddress = config('mail.address');
+        $mailAddress = config('mail.from.address');
         $email->setFrom($mailAddress);
         $email->setSubject($name."さんからのメッセージ");
         $email->addTo($address);
@@ -36,7 +36,7 @@ class MailingController extends Controller
     public function matchMail($address, $id)
     { 
         $email = new \SendGrid\Mail\Mail();
-        $mailAddress = config('mail.address');
+        $mailAddress = config('mail.from.address');
         $email->setFrom($mailAddress); 
         $user = User::where('id', $id)->first();
         $email->setSubject($user->name."さんとマッチングしました");

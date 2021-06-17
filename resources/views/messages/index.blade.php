@@ -82,7 +82,7 @@
  
 </div>
 @endsection
-
+@include('layouts.partials.modal_window')
 
 @section('javascript')
    

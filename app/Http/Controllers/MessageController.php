@@ -19,7 +19,7 @@ class MessageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($matchingId)
+    public function index($matchingId, Request $request)
     {
         // dd($recieve);
         $recieve_id = Matching::where('id', $matchingId)->where('user_id', Auth::id())->value('receive_user_id');
@@ -39,12 +39,28 @@ class MessageController extends Controller
           'send' => $loginId,
           'recieve' => $recieve_id,
         ];
-        // dd($messages);
+        //有料会員ボタンの準備
+        $stripe = new \Stripe\StripeClient(
+          config('cashier.secret'),
+        );
+        $response = $stripe->checkout->sessions->create([
+          'success_url' => $request->getSchemeAndHttpHost(). '/matchings',
+          'cancel_url' => $request->getSchemeAndHttpHost(). '/setting',
+          'payment_method_types' => ['card'],
+          'client_reference_id' => Auth::id(),
+          'line_items' => [
+            [
+              'price' => 'price_1J0NFbH7v2PEnTHMZq14Ir2e',
+              'quantity' => 1,
+            ],
+          ],
+          'mode' => 'subscription',
+        ]);
         
         $profile = Profile::where('user_id', $recieve_id)->first();
         $billing = User::where('id', Auth::id())->value('billing');
         // dd($messages);
-        return view('messages.index', compact('param', 'messages', 'profile', 'matchingId', 'billing'));
+        return view('messages.index', compact('param', 'messages', 'profile', 'matchingId', 'billing', 'response'));
     }
 
     /**
