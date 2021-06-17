@@ -97,7 +97,7 @@ class Favorite extends Model
      */
     public static function getWithdrawByfavorittingUserId($loginUserId)
     {
-        $Favorites = Favorite::where('profile_id', $loginUserId)->get();
+        $Favorites = Favorite::where('user_id', $loginUserId)->get();
         $withdrawUserIds = [];
         foreach ($Favorites as $favorite) {
             $user = $favorite->user_ed;
@@ -119,7 +119,7 @@ class Favorite extends Model
             }
         }
         
-        return Favorite::where('user_id', $withdrawUserIds)->get();
+        return Favorite::where('profile_id', $withdrawUserIds)->get();
     }
     /**
      * ログインユーザーIDに紐づく退会ユーザーとのマッチングデータを取得する
@@ -129,7 +129,7 @@ class Favorite extends Model
      */
     public static function getWithdrawByfavoritedUserId($loginUserId)
     {
-        $Favorites = Favorite::where('user_id', $loginUserId)->get();
+        $Favorites = Favorite::where('profile_id', $loginUserId)->get();
                 
         $withdrawUserIds = [];
         foreach ($Favorites as $favorite) {
@@ -153,6 +153,6 @@ class Favorite extends Model
             }
         }
         
-        return Favorite::wherein('profile_id', $withdrawUserIds)->get();
+        return Favorite::wherein('user_id', $withdrawUserIds)->get();
     }
 }

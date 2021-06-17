@@ -14,7 +14,7 @@
                             @csrf
                             @method('delete')
                             <input type="hidden" value="{{ $user->blocked_user_id }}" name='blocked_user_id'>
-                            <button type="submit" class="btn btn-danger">ブロック</button>
+                            <button type="submit" class="btn btn-danger">ブロックを解除</button>
                         </form>
                         
                         
