@@ -15,12 +15,12 @@ class MailingController extends Controller
     public function sendMail($address, $text, $name)
     { 
         $email = new \SendGrid\Mail\Mail();
-        // $mailAddress = getenv('MAIL_FROM_ADDRESS');
+        
         $mailAddress = config('mail.address');
         $email->setFrom($mailAddress);
         $email->setSubject($name."さんからのメッセージ");
         $email->addTo($address);
-        // $apiKey = getenv('SENDGRID_API_KEY');
+        
         $apiKey = config('services.sendgrid');
         $sendGrid = new \SendGrid($apiKey);
         $email->addContent(
@@ -37,7 +37,6 @@ class MailingController extends Controller
     { 
         $email = new \SendGrid\Mail\Mail();
         $mailAddress = config('mail.address');
-        // $mailAddress = getenv('MAIL_FROM_ADDRESS');
         $email->setFrom($mailAddress); 
         $user = User::where('id', $id)->first();
         $email->setSubject($user->name."さんとマッチングしました");
@@ -57,11 +56,11 @@ class MailingController extends Controller
     public function favoriteMail($address, $name)
     {
         $email = new \SendGrid\Mail\Mail();
-        $mailAddress = config('mail.address');
+        $mailAddress = config('mail.from.address');
         $email->setFrom($mailAddress);
         $email->setSubject($name."さんにいいねされました");
         $email->addTo($address);
-        $apiKey = config('services.sendgrid');
+        $apiKey = config('services.sendgrid.api_key');
         $sendGrid = new \SendGrid($apiKey);
         $email->addContent(
             "text/plain",
