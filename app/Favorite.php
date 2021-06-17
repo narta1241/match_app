@@ -12,11 +12,11 @@ class Favorite extends Model
     
     public function profile()
     {
-        return $this->belongsTo('App\Profile', 'user_id', 'user_id');
+        return $this->belongsTo('App\Profile', 'profile_id', 'user_id');
     }
      public function profile_favorited()
     {
-        return $this->belongsTo('App\Profile', 'profile_id', 'user_id');
+        return $this->belongsTo('App\Profile', 'user_id', 'user_id');
     }
     public function user_ing()
     {
@@ -35,14 +35,17 @@ class Favorite extends Model
      */
     public static function getByFavorittingUserId($loginUserId)
     {
-        $favorittingModel =Favorite::where('profile_id', $loginUserId);
-        // dd($favorittingModel);
+        //ログインユーザー絞り込み
+        $favorittingModel =Favorite::where('user_id', $loginUserId);
+        // dump($favorittingModel->get());
         
+        //退会者を含めない
         $withdrawUserIds = User::wherenotnull('deleted_at')->pluck('id');
         if ($withdrawUserIds) {
-            $favorittingModel->wherenotin('user_id', $withdrawUserIds);
+            $favorittingModel->wherenotin('profile_id', $withdrawUserIds);
         }
         
+        // dump($favorittingModel->get());
          //ブロックユーザーを含めない
         $blocked = Block::where('blocked_user_id', $loginUserId)->pluck('blocking_user_id');
         $blocking = Block::where('blocking_user_id', $loginUserId)->pluck('blocked_user_id');
@@ -50,9 +53,11 @@ class Favorite extends Model
             $favorittingModel = $favorittingModel->wherenotin ('id', $blocked);
         }   
             
+        // dump($favorittingModel->get());
         if($blocking){
             $favorittingModel = $favorittingModel->wherenotin ('id', $blocking);
         }   
+        // dd($favorittingModel->get());
         return $favorittingModel->get();
     }
       /**
@@ -63,11 +68,11 @@ class Favorite extends Model
      */
     public static function getByFavoritedUserId($loginUserId)
     {
-        $favoritedModel =Favorite::where('user_id', $loginUserId);
+        $favoritedModel =Favorite::where('profile_id', $loginUserId);
         
         $withdrawUserIds = User::wherenotnull('deleted_at')->pluck('id');
         if ($withdrawUserIds) {
-            $favoritedModel->wherenotin('profile_id', $withdrawUserIds);
+            $favoritedModel->wherenotin('user_id', $withdrawUserIds);
         }
         
           //ブロックユーザーを含めない

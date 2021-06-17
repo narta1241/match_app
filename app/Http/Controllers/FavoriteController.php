@@ -23,7 +23,7 @@ class FavoriteController extends Controller
             case 'favoritting':
                 // $favorites = Favorite::where('user_id', Auth::id())->wherenotin ('profile_id', $blocking)->wherenotin ('profile_id', $user_id)->get();
                 $favorites = Favorite::getByFavorittingUserId(Auth::id());
-                
+                // dd($favorites);
                 $withdrawFavorites = Favorite::getWithdrawByfavorittingUserId(Auth::id());
                 return view('favorites.favoritting', [
                     "favorites" => $favorites,
