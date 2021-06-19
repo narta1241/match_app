@@ -43,7 +43,9 @@
             <div class="row pl-4 pr-4" id="content">  
                     <div class="col-md-2">
                          <!-- サイドバー -->
-                        @include('layouts.partials.sidebar', ['id' => Auth::id()])
+                        @if($_SERVER['REQUEST_URI'] != '/profiles/create')
+                            @include('layouts.partials.sidebar', ['id' => Auth::id()])
+                        @endif
                     </div>
                     <div class="col-md-10">
                         
@@ -61,6 +63,7 @@
                         
                     </div>
             </div>
+            
             </main>
         <!--</div>-->
     </div>

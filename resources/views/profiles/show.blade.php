@@ -60,9 +60,9 @@
                 success: function(data) {
 
                     if (data.result === 'created') {
-                             $('#favorite-btn-' + profileId).addClass('bg-primary');
+                             document.getElementById('favorite-btn-' + profileId).style.background='#007bff';
                         } else {
-                             $('#favorite-btn-' + profileId).removeClass('bg-primary');
+                             document.getElementById('favorite-btn-' + profileId).style.background='#fff';
                         }
                     },
                 error: function(err) {
