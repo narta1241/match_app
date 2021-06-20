@@ -8,7 +8,7 @@
             <div id="list" class="text-center">
                 @foreach($footprints as $footprint)
                     <div class="ml-4">
-                        <a href={{ route('profiles.show', $footprint->profile->id) }}><img src="data:image/png;base64,{{$footprint->image}}" alt="image" style="width: 400px; height: 350px;"/></a>
+                        <a href={{ route('profiles.show', $footprint->profile->id) }}><img src="data:image/png;base64,{{$footprint->profile->image}}" alt="image" style="width: 400px; height: 350px;"/></a>
                         <h3>{{ $footprint->profile->name." ". $footprint->profile->age."歳　".$footprint->foottime($footprint->profile->user_id)."日前" }}</h3>
                     </div>
                 @endforeach

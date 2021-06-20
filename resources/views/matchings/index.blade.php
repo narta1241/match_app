@@ -8,7 +8,7 @@
                 <div id="list" class="text-center">
                 @foreach($matches as $match)
                     <div class="ml-4">
-                        <img src="data:image/png;base64,{{$match->image}}" alt="image" style="width: 400px; height: 350px;"/>
+                        <img src="data:image/png;base64,{{$match->profile->image}}" alt="image" style="width: 400px; height: 350px;"/>
                     
                         <h3>{{ $match->profile->name." ". $match->profile->age."歳" }}</h3>
                     

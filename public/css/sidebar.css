@@ -221,43 +221,48 @@ li {
     border-bottom-right-radius: 50px;
     border-top-left-radius: 50px;
 }
-.send-message {
-    padding: 15px;
-    background: #007bff;
-    height: auto;
-    border-radius: 50px;
-}
-.send-message textarea:focus {
-    box-shadow: none;
-    outline: none;
-	border-color:#ddd;
-}
-.send-message ul li {
-    display: -webkit-inline-box;
-    padding-left: 25px;
-}
-.send-message ul li i{color:#0056b3;}
-.send-message ul li button{
-  position: absolute;
-  left: 5px;
-  bottom: -7px;
-  outline: none;
-  border: none;
-  appearance: none;
-  background-color: transparent;
-  padding: 2px;
+/*.send-message {*/
+/*    padding: 15px;*/
+/*    background: #007bff;*/
+/*    height: auto;*/
+/*    border-radius: 50px;*/
+/*}*/
+/*.send-message textarea:focus {*/
+/*    box-shadow: none;*/
+/*    outline: none;*/
+/*	border-color:#ddd;*/
+/*}*/
+/*.send-message ul li {*/
+/*    display: -webkit-inline-box;*/
+/*    padding-left: 25px;*/
+/*}*/
+/*.send-message ul li i{color:#0056b3;}*/
+/*.send-message ul li button{*/
+/*  position: absolute;*/
+/*  left: 5px;*/
+/*  bottom: -7px;*/
+/*  outline: none;*/
+/*  border: none;*/
+/*  appearance: none;*/
+/*  background-color: transparent;*/
+/*  padding: 2px;*/
+/*  width: 30px;*/
+/*  height: 30px;*/
+/*}*/
+/*.send-message ul {*/
+/*    position: absolute;*/
+/*    right: 50px;*/
+/*    bottom: 10px;*/
+/*    border-left: 1px solid #9c9a9a;*/
+/*}*/
+/*.send-message .form-control {*/
+/*    border-radius: 50px;*/
+/*}*/
+#btn_send{
   width: 30px;
   height: 30px;
 }
-.send-message ul {
-    position: absolute;
-    right: 50px;
-    bottom: 10px;
-    border-left: 1px solid #9c9a9a;
-}
-.send-message .form-control {
-    border-radius: 50px;
-}
+	
 /*画像を丸く*/
 .navbar-brand img{
   border-radius: 1px;

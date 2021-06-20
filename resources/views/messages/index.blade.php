@@ -57,14 +57,25 @@
         </div>
         <div>
             @if($billing == 1)
-			<div class="send-message">
-			  <form action="" method="">
-			   <textarea  id="text" name="text" cols="10" rows="1" class="form-control" placeholder="メッセージを入力"> </textarea>
-			    <ul class="list-inline"> 
-				  <li> <button type="button" id="btn_send" ><i class="fas fa-paper-plane"></i></button> </li>
-				</ul>
-			  </form>
-			</div>
+			<!--<div class="send-message">-->
+			<!--  <form action="" method="">-->
+			<!--   <textarea  id="text" name="text" cols="10" rows="1" class="form-control" placeholder="メッセージを入力"> </textarea>-->
+			<!--    <ul class="list-inline"> -->
+			<!--	  <li> <button type="button" id="btn_send" ><i class="fas fa-paper-plane"></i></button> </li>-->
+			<!--	</ul>-->
+			<!--  </form>-->
+			<!--</div>-->
+				   
+	        <form action="" method="">
+			    <div class="input-group">
+                    <textarea  id="text" name="text" cols="10" rows="1" class="form-control" placeholder="メッセージを入力"></textarea>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-primary" id="btn_send">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </span>
+                </div>
+            </form>
             @else
                 <span class="user_id text-danger rounded-lg" style="font-size:24px;background-color:skyblue;">
                    ※有料会員のみメッセージの送受信が可能です※
@@ -77,7 +88,12 @@
                 <input type="hidden" id="receive_user_id" name="receive_user_id" value="{{$param['recieve']}}">
  
                 <input type="hidden" id="login" name="login" value="{{\Illuminate\Support\Facades\Auth::id()}}">
+                
+				<div class="panel-footer">
+			    
+			    
         </div>
+        
     </div>
  
 </div>

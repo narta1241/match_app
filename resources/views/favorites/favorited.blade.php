@@ -6,7 +6,7 @@
             <div id="list" class="text-center">
             @foreach($favorites as $favorite)
             <div class="ml-4">
-                <a href={{ route('profiles.show', $favorite->profile_favorited->id) }}><img src="data:image/png;base64,{{$favorite->image}}" alt="image" style="width:  400px; height: 350px;"/></a>
+                <a href={{ route('profiles.show', $favorite->profile_favorited->id) }}><img src="data:image/png;base64,{{$favorite->profile_favorited->image}}" alt="image" style="width:  400px; height: 350px;"/></a>
             
                 <h3>{{ $favorite->profile_favorited->name." ". $favorite->profile_favorited->age."歳" }}</h3>
                 <div>
